@@ -17,7 +17,7 @@ Cyware MCP Server is a high-performance Model Context Protocol (MCP) server buil
 ## ✨ Features
 
 - **🔗 MCP Protocol Compliance**: Full implementation based on the Model Context Protocol specification
-- **🎯 Multi-Application Support**: Integrated access to CSAP, CTIX, and other Cyware applications
+- **🎯 Multi-Application Support**: Integrated access to CTIX, CSAP and other Cyware applications
 - **🔒 Secure AI Integration**: Robust authentication and authorization using config.yaml file
 - **🛠️ Tool Definitions**: Structured tools for AI agents to interact with Cyware services
 - **⚙️ Configurable**: Easy configuration via YAML files
@@ -67,7 +67,7 @@ Before you begin, ensure you have the following installed:
 ### ⚙️ Configuration
 
 Edit `cmd/config.yaml` to configure your MCP server settings:
-- Cyware application endpoints and credentials
+- Cyware application credentials
 - MCP server transport settings (stdio, HTTP, WebSocket)
 
 ### 🚀 Running the MCP Server
@@ -115,18 +115,18 @@ Edit `cmd/config.yaml` to configure your MCP server settings:
 
 ### Threat Data Bulk Actions
 - `threat-data-list-bulk-action-add-tag` - Bulk add tags to threat data objects
-- `threat-data-list-bulk-mark-indicator-allowed` - Bulk mark indicators as allowed
-- `threat-data-list-bulk-unmark-indicator-allowed` - Bulk remove indicators from allowed list
+- `threat-data-list-bulk-mark-indicator-allowed` - Bulk mark indicators as indicator allowed
+- `threat-data-list-bulk-unmark-indicator-allowed` - Bulk remove indicators from indicator allowed list
 - `threat-data-list-bulk-manual-review` - Bulk add threat data objects for manual review
-- `threat-data-list-bulk-mark-false-positive` - Bulk mark as false positive
-- `threat-data-list-bulk-unmark-false-positive` - Bulk unmark false positives
-- `threat-data-list-bulk-update-analyst-tlp` - Bulk update analyst TLP
-- `threat-data-list-bulk-update-analyst-score` - Bulk update analyst scores
+- `threat-data-list-bulk-mark-false-positive` - Bulk mark indicators as false positive
+- `threat-data-list-bulk-unmark-false-positive` - Bulk unmark indicators from false positives
+- `threat-data-list-bulk-update-analyst-tlp` - Bulk update analyst TLP of threat data objects
+- `threat-data-list-bulk-update-analyst-score` - Bulk update analyst scores of threat data objects
 - `threat-data-list-bulk-deprecate` - Bulk deprecate indicators
 - `threat-data-list-bulk-undeprecate` - Bulk un-deprecate indicators
-- `threat-data-list-bulk-add-watchlist` - Bulk add to watchlist
-- `threat-data-list-bulk-remove-watchlist` - Bulk remove from watchlist
-- `threat-data-list-bulk-add-relation` - Bulk add relations
+- `threat-data-list-bulk-add-watchlist` - Bulk add threat data objects to watchlist
+- `threat-data-list-bulk-remove-watchlist` - Bulk remove threat data objects from watchlist
+- `threat-data-list-bulk-add-relation` - Bulk add relations to threat data objects
 
 ### Tag Management
 - `create-tag-in-ctix` - Create new tags in CTIX
@@ -135,7 +135,7 @@ Edit `cmd/config.yaml` to configure your MCP server settings:
 ### Enrichment Tools and Actions
 - `get-enrichment-tools-list` - Get list of all enrichment tools
 - `get-enrichment-tool-details` - Get enrichment tool details
-- `get-enrichment-tool-action-configs` - Get action configuration details
+- `get-enrichment-tool-action-configs` - Get action configuration details of ennrichment tool
 - `get-enrichment-tool-supported-for-threat-data-object` - Get supported enrichment tools for specific threat data types
 - `enrich-threat-data-object` - Enrich threat data objects using configured tools
 
