@@ -1,12 +1,12 @@
 applications:
   ctix:
-    base_url: "https://ctixrdsclone2.cyware-dev.com/ctix/dashboard/"
+    base_url: "CTIX url"
     auth:
       type: "basic"
-      username: "system.default@cyware.com"
-      password: "Test@123"
+      username: "username"
+      password: "password"
       # type: "token"
-      # token: "ptrwVlPO58u4CMhtxUA2PlmEsjZG2uVSS19pHeT_vDT3iQ6b6qu3I_P-T-3sE4TyT3oaBqcQvIv3tw5uvszJsb_ws6oPl2UuqwxeCjVUs6JZ9mIlweEasO8mEg8hp4vxWC-r9TxpmOkfVSP-hLiXVrhmlDYGwQOOuxmuagCn_Fm8O9e-8OBcGG1S9_XNif7I5axWvVtTOSYnyPRCc9OZdSailah7HqCVPGamtCBu7nQJfWd6CbSWeBVKUaVPUh4HdWC9XuQgCiQu-KXAQRx_IMse_su1fq5qWeJfLOh3yrTxlPsO0Aw00AzcOK3LFescby6E4PKb8HP4LXIb0OLAkmueTwA9dp828zUhFmdc6qtlrUQ-No_mVdmFh0g_CY9di7v-ITix0G9ZwDA0Nk3SfIFrRDQI8TF3AG_k7aO6Vvr7I02C6e3ppXAGwzrjkNF767Fsw2tMJM6Bh5aKvmRPsUsabUKx6j8eU-oS1eoc_CQRANjswTaTnpLH2kuOfMtaG9mjsEv8q8Mg1mk4YuecBLj5AmfJp3feeJs1uWC8R_K_hklaE1YV7mJRyDGQOKt2mcIeolTbcfEk7EKM9Rs7JtpxEKosuup8UhddD3hX-UhAnGwLSxuTaBgcpumcFRPixNeuwiI9CgidYUXEjFCV-BhOoFl0akc4nsWv1be5HJMXuZ7KFwA26p_E6MUafnlMBlRiD0D6iT5X4VoWRmJ1Q3gV0AwRkESw92Owk7TUOxVdPEmzXi8dlogboSJefLxXkn7nVFrUHX1Hl2VNMZMgwEYByjcTSGXwbHdfSSvvD8v-6l6qmc2oEi06KBoI4ZVPD79nXiZ4FguRvAKhh2jC9lTNN40dz7LFLL4yTIE21tpX8vh1eXSUu7nCs6uKzaDwfEGdj-UEAofRoYrpIMZfVU9XQuvSA1V5OFhWi4mZkw7dOtFXxtxQlc6XhP9nP6Cea1ZYX8Mg7IzqLSAAA09Z3ud3-QmJk5B2Nnnuelu875-UQ30P3vpNEOmZlQ=="
+      # token: "token"
 
 
 server:
