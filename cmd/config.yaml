@@ -7,8 +7,6 @@ applications:
       password: "password"
       # type: "token"
       # token: "token"
-
-
 server:
   mcp_mode: "stdio"
   # port: "5421"
