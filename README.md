@@ -47,7 +47,7 @@ cyware-mcpserver/
 
 Before you begin, ensure you have the following installed:
 
-- **Go 1.18 or higher** (Install go: https://go.dev/doc/install)
+- **Go 1.24.2 or higher** (Install go: https://go.dev/doc/install)
 - **Access to Cyware applications** (CSAP, CTIX, etc.) 
 - **MCP-compatible AI client** or language model integration 
 
