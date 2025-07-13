@@ -47,9 +47,9 @@ cyware-mcpserver/
 
 Before you begin, ensure you have the following installed:
 
-- **Go 1.18 or higher** 📦
-- **Access to Cyware applications** (CSAP, CTIX, etc.) 🔑
-- **MCP-compatible AI client** or language model integration 🤖
+- **Go 1.18 or higher** (Install go: https://go.dev/doc/install)
+- **Access to Cyware applications** (CSAP, CTIX, etc.) 
+- **MCP-compatible AI client** or language model integration 
 
 ### 📦 Installation
 
@@ -68,7 +68,7 @@ Before you begin, ensure you have the following installed:
 
 Edit `cmd/config.yaml` to configure your MCP server settings:
 - Cyware application credentials
-- MCP server transport settings (stdio, HTTP, WebSocket)
+- MCP server transport settings (stdio, sse)
 
 ### 🚀 Running the MCP Server
 
@@ -79,8 +79,9 @@ Edit `cmd/config.yaml` to configure your MCP server settings:
    ```
 
 2. **Configure Claude Desktop:**
-   
-   After building, configure the binary path in your Claude Desktop config file `claude_desktop_config.json`:
+
+  - Quick Guide for setting up MCP on Claude:[modelcontextprotocol.io/quickstart/user](https://modelcontextprotocol.io/quickstart/user)
+  - After building, configure the binary path in your Claude Desktop config file `claude_desktop_config.json`:
 
    ```json
    {

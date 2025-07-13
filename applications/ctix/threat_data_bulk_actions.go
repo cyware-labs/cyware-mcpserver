@@ -14,10 +14,10 @@ type BulkActionResponse struct {
 }
 
 func ThreatDataListBulkAction(endpoint string, payload any) (*common.APIResponse, error) {
-	bulk_resp := BulkActionResponse{}
-	resp, err := CTIX_CLIENT.MakeRequest("POST", endpoint, nil, &bulk_resp, payload, nil)
+	bulkResp := BulkActionResponse{}
+	resp, err := CTIX_CLIENT.MakeRequest("POST", endpoint, nil, &bulkResp, payload, nil)
 	return &common.APIResponse{
-		FilteredReponse: common.JsonifyResponse(bulk_resp),
+		FilteredReponse: common.JsonifyResponse(bulkResp),
 		RawResponse:     resp,
 	}, err
 }
