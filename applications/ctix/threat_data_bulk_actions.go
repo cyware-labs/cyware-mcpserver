@@ -22,7 +22,7 @@ func ThreatDataListBulkAction(endpoint string, payload any) (*common.APIResponse
 	}, err
 }
 
-// This function uses an action and registers tools for all the bulk actions of threat data
+// This function uses an action map and registers tools for all the bulk actions of threat data
 func ThreatDataListBulkActionTools(s *server.MCPServer) {
 	mp := helpers.GetThreatDataBulkActionsMapping()
 	for _, v := range mp {
