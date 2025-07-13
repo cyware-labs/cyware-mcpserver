@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Go-1.18+-00ADD8?style=flat-square&logo=go&logoColor=white" alt="Go Version">
+  <img src="https://img.shields.io/badge/Go-1.24.2+-00ADD8?style=flat-square&logo=go&logoColor=white" alt="Go Version">
 </p>
 
 ---
