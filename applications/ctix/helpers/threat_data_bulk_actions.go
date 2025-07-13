@@ -17,743 +17,739 @@ const (
 	bulk_add_relation                             = "ingestion/threat-data/bulk-action/add_relation/"
 
 	ThreatDataListBulkActionAddTag = `{
-   "type":"object",
-   "properties":{
-      "all_objects":{
-         "type":"boolean",
-         "description" : "This is a flag which is always set to 'true' "
-      },
-      "objects":{
-         "type":"array",
-         "description" : "This is a list of objects to which tags are to be added.",
-         "items":{
-               "type":"object",
-               "properties":{
-                  "type":{
-                     "type":"string",
-                     "description" : "This is the type(indicator, report etc) of threat data object"
-                  },
-                  "ids":{
-                     "type":"array",
-                     "description" : "This is the list of threat data object_id of this specifc object type",
-                     "items":{
-                           "type":"string",
-                           "description" : "This is the threat data object_id"
-                        }
-                  }
-               },
-               "required":[
-                  "type",
-                  "ids"
-               ]
-            }
-      },
-      "data":{
-         "type":"object",
-         "properties":{
-            "reason":{
-               "type":"string",
-               "description" : "This is the reason for updating the tag of threat data object"
-            },
-            "tag_id":{
-               "type":"array",
-               "description" : "This is a list of tag ids",
-               "items":{
-                     "type":"string",
-                     "description" : "This the tag id"
-                  }
-            }
-         },
-         "required":[
-            "reason",
-            "tag_id"
-         ]
-      }
-   },
-   "required":[
-      "all_objects",
-      "objects",
-      "data"
-   ]
-}
-`
-
-	ThreatDataListBulkMarkIndicatorAllowed = `
-   {
-      "type":"object",
-      "description" : "This is the payload used for bulk marking as indicator allowed.",
-      "properties":{
-         "object_type":{
-            "type":"string",
-            "description" : "This must be passed as indicator. Indicators can only be marked as indicator allowed."
-         },
-         "object_ids":{
-            "type":"array",
-            "description" : "This is the list of the object_id which must be passed.",
-            "items":
-               {
-                  "type":"string",
-                  "description" : "This is the object_id of the object"
-               }
-         }
-      },
-      "required":[
-         "object_type",
-         "object_ids"
-      ]
-   }`
-
-	ThreatDataListBulkUnMarkIndicatorAllowed = `{
-      "type":"object",
-      "description" : "This is the payload used for bulk un-marking as indicator allowed.",
-      "properties":{
-         "object_type":{
-            "type":"string",
-            "description" : "This must be passed as indicator. Indicators can only be marked/unmarked as indicator allowed."
-         },
-         "object_ids":{
-            "type":"array",
-            "description" : "This is the list of the object_id which must be passed.",
-            "items":
-               {
-                  "type":"string",
-                  "description" : "This is the object_id of the object"
-               }
-         }
-      },
-      "required":[
-         "object_type",
-         "object_ids"
-      ]
-   }`
-
-	ThreatDataListBulkAddTask = `
-	{
-	"type": "object",
-	"description" : "This is the payload for adding a task in bulk to a number of threat data object",
-	"properties": {
-	"all_objects": {
-		"type": "boolean",
-		"description" : "This must be always set to true"
-		},
-	"objects": {
-		"type": "array",
-		"description" : "This is the list of the object_id seggregated with the object type",
-		"items": {
-			"type": "object",
-			"properties": {
-				"type": {
-				"type": "string",
-				"description" : "This is the type of the object eg: threat-actor, malware etc"
-				},
-				"ids": {
-				"type": "array",
-				"description" :"This is the list of the object ids",
-				"items": 
-					{
-					"type": "string",
-					"description" : "This is the object id"
+		"type":"object",
+		"properties":{
+			"all_objects":{
+				"type":"boolean",
+				"description" : "This is a flag which is always set to 'true' "
+			},
+			"objects":{
+				"type":"array",
+				"description" : "This is a list of objects to which tags are to be added.",
+				"items":{
+					"type":"object",
+					"properties":{
+						"type":{
+							"type":"string",
+							"description" : "This is the type(indicator, report etc) of threat data object"
+						},
+						"ids":{
+							"type":"array",
+							"description" : "This is the list of threat data object_id of this specifc object type",
+							"items":{
+								"type":"string",
+								"description" : "This is the threat data object_id"
+								}
+						}
+					},
+					"required":[
+						"type",
+						"ids"
+					]
 					}
-				}
 			},
-			"required": [
-				"type",
-				"ids"
-			]
-			}
-		},
-		"data": {
-		"type": "object",
-		"description" : "This is information of the task being assigned",
-		"properties": {
-			"priority": {
-			"type": "string",
-			"description" : "Priority of the task. Can have values only from 'high', 'medium' and 'low'"
-			},
-			"status": {
-			"type": "string",
-			"description" : "This is the status of the task. As this is creating new task so always use the value 'not_started' for this key"
-			},
-			"assignee": {
-			"type": "string",
-			"description" : "This is the user_id of the assignee  of the task. Fetch the user_id from the user listing tool"
-			},
-			"text": {
-			"type": "string",
-			"description" : "This is the Actual text for task, what needs to done. It has a character limit of 2000, so be precise."
-			},
-			"deadline": {
-			"type": "integer",
-			"description" : "Deadline for the task assigned. It should be a future date in epoch. Use tool to fetch the future date"
-			}
-		},
-		"required": [
-			"priority",
-			"meta_data",
-			"status",
-			"assignee",
-			"text",
-			"deadline"
-		]
-		}
-	},
-	"required": [
-		"all_objects",
-		"objects",
-		"data"
-	]
-	}
-`
-
-	ThreatDataListBulkManualReview = `{
-	"type": "object",
-	"description" : "This is the payload for adding threat data object in bulk for manual review.",
-	"properties": {
-		"all_objects": {
-		"type": "boolean",
-		"description" : "This is a flag which is always set to 'true' "
-		},
-		"objects":{
-			"type":"array",
-			"description" : "This is a list of objects which are to be added for manual review.",
-			"items":{
+			"data":{
 				"type":"object",
 				"properties":{
-					"type":{
-						"type":"string",
-						"description" : "This is the type(indicator, report etc) of threat data object"
+					"reason":{
+					"type":"string",
+					"description" : "This is the reason for updating the tag of threat data object"
 					},
-					"ids":{
-						"type":"array",
-						"description" : "This is the list of threat data object_id of this specifc object type",
-						"items":{
+					"tag_id":{
+					"type":"array",
+					"description" : "This is a list of tag ids",
+					"items":{
 							"type":"string",
-							"description" : "This is the threat data object_id"
-							}
+							"description" : "This the tag id"
+						}
 					}
 				},
 				"required":[
+					"reason",
+					"tag_id"
+				]
+			}
+		},
+		"required":[
+			"all_objects",
+			"objects",
+			"data"
+		]
+	}`
+
+	ThreatDataListBulkMarkIndicatorAllowed = `{
+		"type":"object",
+		"description" : "This is the payload used for bulk marking as indicator allowed.",
+		"properties":{
+			"object_type":{
+			"type":"string",
+			"description" : "This must be passed as indicator. Indicators can only be marked as indicator allowed."
+			},
+			"object_ids":{
+			"type":"array",
+			"description" : "This is the list of the object_id which must be passed.",
+			"items":
+				{
+					"type":"string",
+					"description" : "This is the object_id of the object"
+				}
+			}
+		},
+		"required":[
+			"object_type",
+			"object_ids"
+		]
+	}`
+
+	ThreatDataListBulkUnMarkIndicatorAllowed = `{
+		"type":"object",
+		"description" : "This is the payload used for bulk un-marking as indicator allowed.",
+		"properties":{
+			"object_type":{
+			"type":"string",
+			"description" : "This must be passed as indicator. Indicators can only be marked/unmarked as indicator allowed."
+			},
+			"object_ids":{
+			"type":"array",
+			"description" : "This is the list of the object_id which must be passed.",
+			"items":
+				{
+					"type":"string",
+					"description" : "This is the object_id of the object"
+				}
+			}
+		},
+		"required":[
+			"object_type",
+			"object_ids"
+		]
+	}`
+
+	ThreatDataListBulkAddTask = `{
+		"type": "object",
+		"description" : "This is the payload for adding a task in bulk to a number of threat data object",
+		"properties": {
+		"all_objects": {
+			"type": "boolean",
+			"description" : "This must be always set to true"
+			},
+		"objects": {
+			"type": "array",
+			"description" : "This is the list of the object_id seggregated with the object type",
+			"items": {
+				"type": "object",
+				"properties": {
+					"type": {
+					"type": "string",
+					"description" : "This is the type of the object eg: threat-actor, malware etc"
+					},
+					"ids": {
+					"type": "array",
+					"description" :"This is the list of the object ids",
+					"items": 
+						{
+						"type": "string",
+						"description" : "This is the object id"
+						}
+					}
+				},
+				"required": [
 					"type",
 					"ids"
 				]
 				}
-		},
-		"data": {
-		"type": "object",
-		"properties": {
-			"reason": {
-			"type": "string",
-			"description" : "This is the reason for adding threat data objects for manual review"
 			},
-			"is_under_review": {
-			"type": "boolean",
-			"description" : "This is a flag which is always set to 'true' "
+			"data": {
+			"type": "object",
+			"description" : "This is information of the task being assigned",
+			"properties": {
+				"priority": {
+				"type": "string",
+				"description" : "Priority of the task. Can have values only from 'high', 'medium' and 'low'"
+				},
+				"status": {
+				"type": "string",
+				"description" : "This is the status of the task. As this is creating new task so always use the value 'not_started' for this key"
+				},
+				"assignee": {
+				"type": "string",
+				"description" : "This is the user_id of the assignee  of the task. Fetch the user_id from the user listing tool"
+				},
+				"text": {
+				"type": "string",
+				"description" : "This is the Actual text for task, what needs to done. It has a character limit of 2000, so be precise."
+				},
+				"deadline": {
+				"type": "integer",
+				"description" : "Deadline for the task assigned. It should be a future date in epoch. Use tool to fetch the future date"
+				}
+			},
+			"required": [
+				"priority",
+				"meta_data",
+				"status",
+				"assignee",
+				"text",
+				"deadline"
+			]
 			}
 		},
 		"required": [
-			"reason",
-			"is_under_review"
+			"all_objects",
+			"objects",
+			"data"
 		]
-		}
-	},
-	"required": [
-		"all_objects",
-		"objects",
-		"data"
-	]
+	}`
+
+	ThreatDataListBulkManualReview = `{
+		"type": "object",
+		"description" : "This is the payload for adding threat data object in bulk for manual review.",
+		"properties": {
+			"all_objects": {
+			"type": "boolean",
+			"description" : "This is a flag which is always set to 'true' "
+			},
+			"objects":{
+				"type":"array",
+				"description" : "This is a list of objects which are to be added for manual review.",
+				"items":{
+					"type":"object",
+					"properties":{
+						"type":{
+							"type":"string",
+							"description" : "This is the type(indicator, report etc) of threat data object"
+						},
+						"ids":{
+							"type":"array",
+							"description" : "This is the list of threat data object_id of this specifc object type",
+							"items":{
+								"type":"string",
+								"description" : "This is the threat data object_id"
+								}
+						}
+					},
+					"required":[
+						"type",
+						"ids"
+					]
+					}
+			},
+			"data": {
+			"type": "object",
+			"properties": {
+				"reason": {
+				"type": "string",
+				"description" : "This is the reason for adding threat data objects for manual review"
+				},
+				"is_under_review": {
+				"type": "boolean",
+				"description" : "This is a flag which is always set to 'true' "
+				}
+			},
+			"required": [
+				"reason",
+				"is_under_review"
+			]
+			}
+		},
+		"required": [
+			"all_objects",
+			"objects",
+			"data"
+		]
 	}`
 
 	ThreatDataListBulkMarkFalsePositive = `{
-	"type": "object",
-	"description" : "This is the payload used for bulk marking indicator as false postive.",
-	"properties": {
-		"object_type": {
-		"type": "string",
-		"description" : "This must be passed as indicator. Indicators can only be marked as false postive."
-
-		},
-		"object_ids":{
-			"type":"array",
-			"description" : "This is the list of the object_id which must be passed.",
-			"items":
-				{
-					"type":"string",
-					"description" : "This is the object_id of the object"
-				}
-		},
-		"data": {
 		"type": "object",
+		"description" : "This is the payload used for bulk marking indicator as false postive.",
 		"properties": {
-			"reason": {
+			"object_type": {
 			"type": "string",
-			"description" : "This is the reason for marking threat data objects as false positive"
+			"description" : "This must be passed as indicator. Indicators can only be marked as false postive."
 
 			},
-			"is_false_positive": {
-			"type": "boolean",
-			"description" : "This must be always set to true for marking"
+			"object_ids":{
+				"type":"array",
+				"description" : "This is the list of the object_id which must be passed.",
+				"items":
+					{
+						"type":"string",
+						"description" : "This is the object_id of the object"
+					}
+			},
+			"data": {
+			"type": "object",
+			"properties": {
+				"reason": {
+				"type": "string",
+				"description" : "This is the reason for marking threat data objects as false positive"
+
+				},
+				"is_false_positive": {
+				"type": "boolean",
+				"description" : "This must be always set to true for marking"
+				}
+			},
+			"required": [
+				"reason",
+				"is_false_positive"
+			]
 			}
 		},
 		"required": [
-			"reason",
-			"is_false_positive"
+			"object_type",
+			"object_ids",
+			"data"
 		]
-		}
-	},
-	"required": [
-		"object_type",
-		"object_ids",
-		"data"
-	]
 	}`
 
 	ThreatDataListBulkUnMarkFalsePositive = `{
-	"type": "object",
-	"description" : "This is the payload used for bulk marking indicator as false postive.",
-	"properties": {
-		"object_type": {
-		"type": "string",
-		"description" : "This must be passed as indicator. Indicators can only be marked as false postive."
-
-		},
-		"object_ids":{
-			"type":"array",
-			"description" : "This is the list of the object_id which must be passed.",
-			"items":
-				{
-					"type":"string",
-					"description" : "This is the object_id of the object"
-				}
-		},
-		"data": {
 		"type": "object",
+		"description" : "This is the payload used for bulk marking indicator as false postive.",
 		"properties": {
-			"reason": {
+			"object_type": {
 			"type": "string",
-			"description" : "This is the reason for unmarking threat data objects from false postive"
+			"description" : "This must be passed as indicator. Indicators can only be marked as false postive."
 
 			},
-			"is_false_positive": {
-			"type": "boolean",
-			"description" : "This must be always set to false for unmarking"
+			"object_ids":{
+				"type":"array",
+				"description" : "This is the list of the object_id which must be passed.",
+				"items":
+					{
+						"type":"string",
+						"description" : "This is the object_id of the object"
+					}
+			},
+			"data": {
+			"type": "object",
+			"properties": {
+				"reason": {
+				"type": "string",
+				"description" : "This is the reason for unmarking threat data objects from false postive"
+
+				},
+				"is_false_positive": {
+				"type": "boolean",
+				"description" : "This must be always set to false for unmarking"
+				}
+			},
+			"required": [
+				"reason",
+				"is_false_positive"
+			]
 			}
 		},
 		"required": [
-			"reason",
-			"is_false_positive"
+			"object_type",
+			"object_ids",
+			"data"
 		]
-		}
-	},
-	"required": [
-		"object_type",
-		"object_ids",
-		"data"
-	]
 	}`
 
 	ThreatDataListBulkUpdateAnalystTLP = `{
-	"type": "object",
-	"description" : "This is the payload for updating the analyst TLP of threat data object in bulk.",
-	"properties": {
-		"all_objects": {
-		"type": "boolean",
-		"description" : "This is a flag which is always set to 'true' "
-		},
-		"objects":{
-			"type":"array",
-			"description" : "This is a list of threat data objects to be updated with analyst tlp.",
-			"items":{
-				"type":"object",
-				"properties":{
-					"type":{
-						"type":"string",
-						"description" : "This is the type(indicator, report etc) of threat data object"
-					},
-					"ids":{
-						"type":"array",
-						"description" : "This is the list of threat data object_id of this specifc object type",
-						"items":{
-							"type":"string",
-							"description" : "This is the threat data object_id"
-							}
-					}
-				},
-				"required":[
-					"type",
-					"ids"
-				]
-				}
-		},
-		"data": {
 		"type": "object",
+		"description" : "This is the payload for updating the analyst TLP of threat data object in bulk.",
 		"properties": {
-			"reason": {
-			"type": "string",
-			"description" : "This is the reason for updating analyst tlp of threat data objects."
+			"all_objects": {
+			"type": "boolean",
+			"description" : "This is a flag which is always set to 'true' "
 			},
-			"analyst_tlp": {
-			"type": "string",
-			"description" : "This is the value TLP, it can be RED, AMBER_STRICT, AMBER, GREEN, CLEAR, NONE"
+			"objects":{
+				"type":"array",
+				"description" : "This is a list of threat data objects to be updated with analyst tlp.",
+				"items":{
+					"type":"object",
+					"properties":{
+						"type":{
+							"type":"string",
+							"description" : "This is the type(indicator, report etc) of threat data object"
+						},
+						"ids":{
+							"type":"array",
+							"description" : "This is the list of threat data object_id of this specifc object type",
+							"items":{
+								"type":"string",
+								"description" : "This is the threat data object_id"
+								}
+						}
+					},
+					"required":[
+						"type",
+						"ids"
+					]
+					}
+			},
+			"data": {
+			"type": "object",
+			"properties": {
+				"reason": {
+				"type": "string",
+				"description" : "This is the reason for updating analyst tlp of threat data objects."
+				},
+				"analyst_tlp": {
+				"type": "string",
+				"description" : "This is the value TLP, it can be RED, AMBER_STRICT, AMBER, GREEN, CLEAR, NONE"
+				}
+			},
+			"required": [
+				"reason",
+				"analyst_tlp"
+			]
 			}
 		},
 		"required": [
-			"reason",
-			"analyst_tlp"
+			"all_objects",
+			"objects",
+			"data"
 		]
-		}
-	},
-	"required": [
-		"all_objects",
-		"objects",
-		"data"
-	]
 	}`
 
 	ThreatDataListBulkUpdateAnalystScore = `{
-	"type": "object",
-	"description" : "This is the payload for updating the analyst score of threat data object in bulk.",
-	"properties": {
-		"all_objects": {
-		"type": "boolean",
-		"description" : "This is a flag which is always set to 'true' "
-		},
-		"objects":{
-			"type":"array",
-			"description" : "This is a list of threat data objects to be updated with analyst score.",
-			"items":{
-				"type":"object",
-				"properties":{
-					"type":{
-						"type":"string",
-						"description" : "This is the type(indicator, report etc) of threat data object"
-					},
-					"ids":{
-						"type":"array",
-						"description" : "This is the list of threat data object_id of this specifc object type",
-						"items":{
+		"type": "object",
+		"description" : "This is the payload for updating the analyst score of threat data object in bulk.",
+		"properties": {
+			"all_objects": {
+			"type": "boolean",
+			"description" : "This is a flag which is always set to 'true' "
+			},
+			"objects":{
+				"type":"array",
+				"description" : "This is a list of threat data objects to be updated with analyst score.",
+				"items":{
+					"type":"object",
+					"properties":{
+						"type":{
 							"type":"string",
-							"description" : "This is the threat data object_id"
-							}
+							"description" : "This is the type(indicator, report etc) of threat data object"
+						},
+						"ids":{
+							"type":"array",
+							"description" : "This is the list of threat data object_id of this specifc object type",
+							"items":{
+								"type":"string",
+								"description" : "This is the threat data object_id"
+								}
+						}
+					},
+					"required":[
+						"type",
+						"ids"
+					]
+					}
+			},
+			"data": {
+			"type": "object",
+			"properties": {
+				"reason": {
+				"type": "string",
+				"description" : "This is the reason for updating analyst score of threat data objects."
+				},
+				"analyst_score": {
+				"type": "string",
+				"description" : "This is the value analyst score, it must be between 0-100"
+				}
+			},
+			"required": [
+				"reason",
+				"analyst_score"
+			]
+			}
+		},
+		"required": [
+			"all_objects",
+			"objects",
+			"data"
+		]
+	}`
+
+	ThreatDataListBulkDeprecate = `{
+		"type": "object",
+		"description" : "This is the payload used for deprecating indicators.",
+		"properties": {
+			"object_type": {
+			"type": "string",
+			"description" : "This must be passed as indicator. Indicators can only be deprecated."
+
+			},
+			"object_ids":{
+				"type":"array",
+				"description" : "This is the list of the object_id which must be passed.",
+				"items":
+					{
+						"type":"string",
+						"description" : "This is the object_id of the object"
+					}
+			},
+			"data": {
+			"type": "object",
+			"properties": {
+				"reason": {
+				"type": "string",
+				"description" : "This is the reason for deprecating threat data objects."
+
+				},
+				"is_deprecated": {
+				"type": "boolean",
+				"description" : "This must be always set to true for deprecating."
+				}
+			},
+			"required": [
+				"reason",
+				"is_deprecated"
+			]
+			}
+		},
+		"required": [
+			"object_type",
+			"object_ids",
+			"data"
+		]
+	}`
+
+	ThreatDataListBulkUnDeprecate = `{
+		"type": "object",
+		"description" : "This is the payload used for un-deprecating indicators.",
+		"properties": {
+			"object_type": {
+			"type": "string",
+			"description" : "This must be passed as indicator. Indicators can only be deprecated."
+
+			},
+			"object_ids":{
+				"type":"array",
+				"description" : "This is the list of the object_id which must be passed.",
+				"items":
+					{
+						"type":"string",
+						"description" : "This is the object_id of the object"
+					}
+			},
+			"data": {
+			"type": "object",
+			"properties": {
+				"reason": {
+				"type": "string",
+				"description" : "This is the reason for un-deprecating threat data objects."
+
+				},
+				"is_deprecated": {
+				"type": "boolean",
+				"description" : "This must be always set to false for un-deprecating."
+				},
+				"undeprecate_until":{
+				"type" : "integer",
+				"description" : "This is epoch time which is must be greater than the current time."
+				}
+			},
+			"required": [
+				"reason",
+				"is_deprecated"
+			]
+			}
+		},
+		"required": [
+			"object_type",
+			"object_ids",
+			"data"
+		]
+	}`
+
+	ThreatDataListBulkAddWatchlist = `{
+		"type": "object",
+		"description" : "This is the payload used adding threat data to watchlist.",
+		"properties": {
+			"all_objects": {
+			"type": "boolean",
+			"description" : "This must be always set to true"
+			},
+			"objects": {
+			"type": "array",
+			"description" : "This is the list of the object_id seggregated with the object type",
+			"items": {
+				"type": "object",
+				"properties": {
+					"type": {
+					"type": "string",
+					"description" : "This is the type of the object eg: threat-actor, malware etc"
+					},
+					"ids": {
+					"type": "array",
+						"description" :"This is the list of the object ids",
+					"items": {
+						"type": "string",
+						"description" : "This is the object id"
+						}
 					}
 				},
-				"required":[
+				"required": [
 					"type",
 					"ids"
 				]
 				}
-		},
-		"data": {
-		"type": "object",
-		"properties": {
-			"reason": {
-			"type": "string",
-			"description" : "This is the reason for updating analyst score of threat data objects."
 			},
-			"analyst_score": {
-			"type": "string",
-			"description" : "This is the value analyst score, it must be between 0-100"
-			}
-		},
-		"required": [
-			"reason",
-			"analyst_score"
-		]
-		}
-	},
-	"required": [
-		"all_objects",
-		"objects",
-		"data"
-	]
-	}`
-
-	ThreatDataListBulkDeprecate = `{
-	"type": "object",
-	"description" : "This is the payload used for deprecating indicators.",
-	"properties": {
-		"object_type": {
-		"type": "string",
-		"description" : "This must be passed as indicator. Indicators can only be deprecated."
-
-		},
-		"object_ids":{
-			"type":"array",
-			"description" : "This is the list of the object_id which must be passed.",
-			"items":
-				{
-					"type":"string",
-					"description" : "This is the object_id of the object"
-				}
-		},
-		"data": {
-		"type": "object",
-		"properties": {
-			"reason": {
-			"type": "string",
-			"description" : "This is the reason for deprecating threat data objects."
-
-			},
-			"is_deprecated": {
-			"type": "boolean",
-			"description" : "This must be always set to true for deprecating."
-			}
-		},
-		"required": [
-			"reason",
-			"is_deprecated"
-		]
-		}
-	},
-	"required": [
-		"object_type",
-		"object_ids",
-		"data"
-	]
-	}`
-
-	ThreatDataListBulkUnDeprecate = `{
-	"type": "object",
-	"description" : "This is the payload used for un-deprecating indicators.",
-	"properties": {
-		"object_type": {
-		"type": "string",
-		"description" : "This must be passed as indicator. Indicators can only be deprecated."
-
-		},
-		"object_ids":{
-			"type":"array",
-			"description" : "This is the list of the object_id which must be passed.",
-			"items":
-				{
-					"type":"string",
-					"description" : "This is the object_id of the object"
-				}
-		},
-		"data": {
-		"type": "object",
-		"properties": {
-			"reason": {
-			"type": "string",
-			"description" : "This is the reason for un-deprecating threat data objects."
-
-			},
-			"is_deprecated": {
-			"type": "boolean",
-			"description" : "This must be always set to false for un-deprecating."
-			},
-			"undeprecate_until":{
-			"type" : "integer",
-			"description" : "This is epoch time which is must be greater than the current time."
-			}
-		},
-		"required": [
-			"reason",
-			"is_deprecated"
-		]
-		}
-	},
-	"required": [
-		"object_type",
-		"object_ids",
-		"data"
-	]
-	}`
-
-	ThreatDataListBulkAddWatchlist = `{
-	"type": "object",
-	"description" : "This is the payload used adding threat data to watchlist.",
-	"properties": {
-		"all_objects": {
-		"type": "boolean",
-		"description" : "This must be always set to true"
-		},
-		"objects": {
-		"type": "array",
-		"description" : "This is the list of the object_id seggregated with the object type",
-		"items": {
+			"data": {
 			"type": "object",
+			"description" : "This is the list of values(names) of the threat data object",
 			"properties": {
-				"type": {
-				"type": "string",
-				"description" : "This is the type of the object eg: threat-actor, malware etc"
-				},
-				"ids": {
+				"name": {
 				"type": "array",
-					"description" :"This is the list of the object ids",
 				"items": {
 					"type": "string",
-					"description" : "This is the object id"
+					"description" : "This is value(name) fo the threat data object"
 					}
 				}
 			},
 			"required": [
-				"type",
-				"ids"
+				"name"
 			]
 			}
 		},
-		"data": {
-		"type": "object",
-		"description" : "This is the list of values(names) of the threat data object",
-		"properties": {
-			"name": {
-			"type": "array",
-			"items": {
-				"type": "string",
-				"description" : "This is value(name) fo the threat data object"
-				}
-			}
-		},
 		"required": [
-			"name"
+			"all_objects",
+			"objects",
+			"data"
 		]
-		}
-	},
-	"required": [
-		"all_objects",
-		"objects",
-		"data"
-	]
 	}`
 
 	ThreatDataListBulkRemoveWatchlist = `{
-	"type": "object",
-	"description" : "This is the payload used to reomve a number of threat data from watchlist.",
-	"properties": {
-		"all_objects": {
-		"type": "boolean",
-		"description" : "This must be always set to true"
-		},
-		"objects": {
-		"type": "array",
-		"description" : "This is the list of the object_id seggregated with the object type",
-		"items": {
-			"type": "object",
-			"properties": {
-				"type": {
-				"type": "string",
-				"description" : "This is the type of the object eg: threat-actor, malware etc"
+		"type": "object",
+		"description" : "This is the payload used to reomve a number of threat data from watchlist.",
+		"properties": {
+			"all_objects": {
+			"type": "boolean",
+			"description" : "This must be always set to true"
+			},
+			"objects": {
+			"type": "array",
+			"description" : "This is the list of the object_id seggregated with the object type",
+			"items": {
+				"type": "object",
+				"properties": {
+					"type": {
+					"type": "string",
+					"description" : "This is the type of the object eg: threat-actor, malware etc"
+					},
+					"ids": {
+					"type": "array",
+						"description" :"This is the list of the object ids",
+					"items": {
+						"type": "string",
+						"description" : "This is the object id"
+						}
+					}
 				},
-				"ids": {
+				"required": [
+					"type",
+					"ids"
+				]
+				}
+			},
+			"data": {
+			"type": "object",
+			"description" : "This is the list of values(names) of the threat data object",
+			"properties": {
+				"name": {
 				"type": "array",
-					"description" :"This is the list of the object ids",
 				"items": {
 					"type": "string",
-					"description" : "This is the object id"
+					"description" : "This is value(name) fo the threat data object"
 					}
 				}
 			},
 			"required": [
-				"type",
-				"ids"
+				"name"
 			]
 			}
 		},
-		"data": {
-		"type": "object",
-		"description" : "This is the list of values(names) of the threat data object",
-		"properties": {
-			"name": {
-			"type": "array",
-			"items": {
-				"type": "string",
-				"description" : "This is value(name) fo the threat data object"
-				}
-			}
-		},
 		"required": [
-			"name"
+			"all_objects",
+			"objects",
+			"data"
 		]
-		}
-	},
-	"required": [
-		"all_objects",
-		"objects",
-		"data"
-	]
 	}`
 
 	ThreatDataListBulkAddRelation = `{
-	"type": "object",
-	"description" : "This is the payload used to add relation to a number of threat data objects in CTIX.",
-	"properties": {
-		"all_objects": {
-		"type": "boolean",
-		"description" : "This must be always set to true"
-		},
-		"objects": {
-		"type": "array",
-		"description" : "This is the list of the object_id seggregated with the object type",
-		"items": {
-			"type": "object",
-			"properties": {
-				"type": {
-				"type": "string",
-				"description" : "This is the type of the object eg: threat-actor, malware etc"
-				},
-				"ids": {
-				"type": "array",
-				"description" :"This is the list of the object ids",
-				"items": 
-					{
-					"type": "string",
-					"description" : "This is the object id"
-					}
-				}
-			},
-			"required": [
-				"type",
-				"ids"
-			]
-			}
-		},
-		"data": {
 		"type": "object",
-		"description" : "This the details of the target threat data object to which all the mentioned object will be related.",
+		"description" : "This is the payload used to add relation to a number of threat data objects in CTIX.",
 		"properties": {
-			"target": {
+			"all_objects": {
+			"type": "boolean",
+			"description" : "This must be always set to true"
+			},
+			"objects": {
+			"type": "array",
+			"description" : "This is the list of the object_id seggregated with the object type",
+			"items": {
+				"type": "object",
+				"properties": {
+					"type": {
+					"type": "string",
+					"description" : "This is the type of the object eg: threat-actor, malware etc"
+					},
+					"ids": {
+					"type": "array",
+					"description" :"This is the list of the object ids",
+					"items": 
+						{
+						"type": "string",
+						"description" : "This is the object id"
+						}
+					}
+				},
+				"required": [
+					"type",
+					"ids"
+				]
+				}
+			},
+			"data": {
 			"type": "object",
+			"description" : "This the details of the target threat data object to which all the mentioned object will be related.",
 			"properties": {
-				"id": {
-				"type": "string",
-				"description" : "This is object_id of the target threat data object"
+				"target": {
+				"type": "object",
+				"properties": {
+					"id": {
+					"type": "string",
+					"description" : "This is object_id of the target threat data object"
+					},
+					"name": {
+					"type": "string",
+					"description" : "This is name of the target threat data object"
+					},
+					"sub_type": {
+					"type": "string",
+					"description" : "This is sub_type of the target threat data object. It can be null if object doesn't have this value"
+					},
+					"type": {
+					"type": "string",
+					"description" : "This is type of the target threat data object. eg-malware"
+					}
 				},
-				"name": {
-				"type": "string",
-				"description" : "This is name of the target threat data object"
+				"required": [
+					"id",
+					"name",
+					"sub_type",
+					"type"
+				]
 				},
-				"sub_type": {
+				"relationship_type": {
 				"type": "string",
-				"description" : "This is sub_type of the target threat data object. It can be null if object doesn't have this value"
-				},
-				"type": {
-				"type": "string",
-				"description" : "This is type of the target threat data object. eg-malware"
+				"description" :"This is the relation type between the objects, which must be a value from the available relation types list"
 				}
 			},
 			"required": [
-				"id",
-				"name",
-				"sub_type",
-				"type"
+				"target",
+				"relationship_type"
 			]
-			},
-			"relationship_type": {
-			"type": "string",
-			"description" :"This is the relation type between the objects, which must be a value from the available relation types list"
 			}
 		},
 		"required": [
-			"target",
-			"relationship_type"
+			"all_objects",
+			"objects",
+			"data"
 		]
-		}
-	},
-	"required": [
-		"all_objects",
-		"objects",
-		"data"
-	]
 	}`
 )
 
