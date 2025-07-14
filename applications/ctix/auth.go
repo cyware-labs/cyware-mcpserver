@@ -56,8 +56,9 @@ func Login() (*common.APIResponse, error) {
 		}, err
 
 	case "token":
-		CTIX_CLIENT.Client.SetHeader("Authorization", formatCywareToken(CTIX_CONFIG.Auth.Token))
-
+		token := formatCywareToken(CTIX_CONFIG.Auth.Token)
+		CTIX_CLIENT.Client.SetHeader("Authorization", token)
+		login_resp.Token = token
 	default:
 		return nil, fmt.Errorf("unsupported auth_type: %s", CTIX_CONFIG.Auth.Type)
 	}
