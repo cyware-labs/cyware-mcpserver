@@ -275,7 +275,7 @@ func GetAllEnrichmentToolSupportedForThreatDataObject(params map[string]string) 
 }
 
 func GetAllEnrichmentToolSupportedForThreatDataObjectTool(s *server.MCPServer) {
-	getAllEnrichmentToolSupportedForThreatDataObject := mcp.NewTool("get-enrichment-tool-supported-for-threat-data-object",
+	getAllEnrichmentToolSupportedForThreatDataObject := mcp.NewTool("enrichment-tool-supported-for-threat-data-object",
 		mcp.WithDescription(`This tool returns a list of enrichment tools that support a specific Threat Data Object (SDO).
 
 		📌 Important: Use this tool only when the user explicitly requests enrichment for an object. It helps determine which enrichment tools are applicable to the specified object type.
