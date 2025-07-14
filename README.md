@@ -136,7 +136,7 @@ Edit `cmd/config.yaml` to configure your MCP server settings:
 - `get-enrichment-tools-list` - Get list of all enrichment tools
 - `get-enrichment-tool-details` - Get enrichment tool details
 - `get-enrichment-tool-action-configs` - Get action configuration details of ennrichment tool
-- `get-enrichment-tool-supported-for-threat-data-object` - Get supported enrichment tools for specific threat data types
+- `enrichment-tool-supported-for-threat-data-object` - Get supported enrichment tools for specific threat data types
 - `enrich-threat-data-object` - Enrich threat data objects using configured tools
 
 ### Intel Creation
