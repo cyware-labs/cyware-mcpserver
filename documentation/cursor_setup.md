@@ -31,7 +31,7 @@ This guide will walk you through setting up Cyware MCP integration in Cursor IDE
 ```json
 {
      "mcpServers": {
-       "Cyware MCP": {
+       "cywaremcp": {
          "command": "path/to/your/binary/cmd",
          "args": [
            "-config_path",
