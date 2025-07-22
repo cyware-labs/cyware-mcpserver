@@ -98,7 +98,9 @@ Edit `cmd/config.yaml` to configure your MCP server settings:
 
 3. **Restart Claude Desktop** to see the Cyware tools available! 🎉
 
-## 🛠️ Available MCP Tools
+# 🛠️ Available MCP Tools
+
+## CTIX(Cyware Threat Intelligence eXchange)
 
 ### Authentication & User Management
 - `login-to-ctix` - Login to CTIX and generate authentication token
@@ -135,12 +137,31 @@ Edit `cmd/config.yaml` to configure your MCP server settings:
 ### Enrichment Tools and Actions
 - `get-enrichment-tools-list` - Get list of all enrichment tools
 - `get-enrichment-tool-details` - Get enrichment tool details
-- `get-enrichment-tool-action-configs` - Get action configuration details of ennrichment tool
+- `get-enrichment-tool-action-configs` - Get action configuration details of enrichment tool
 - `enrichment-tool-supported-for-threat-data-object` - Get supported enrichment tools for specific threat data types
 - `enrich-threat-data-object` - Enrich threat data objects using configured tools
 
 ### Intel Creation
 - `quick-add-intel-create` - Create intelligence in CTIX using quick add flow
+
+## CO(Cyware Orchestrate)
+
+### Authentication & User Management
+- `login-to-co` - Login to CO and generate authentication token
+
+### Playbooks Details & Execution
+
+- `get-co-playbooks-list` - Get the list of playbooks created in CO.
+- `get-co-playbook-details` - Get the playbook details
+- `execute-playbook-in-co` - Execute the CO playbook
+
+### CO Apps & Actions
+- `get-co-apps-list` - Get the list of application present in CO
+- `get-co-app-details` _ Get the details of the specific app
+- `get-co-actions-of-app` - Get the actions present in the app
+- `get-co-app-action-details` - Get the details of an action
+- `get-instances-of-co-app` - Get the instances(account) configured in the app
+- `execute-action-of-co-app` - Executes the action of the app.
 
 ## 📄 License
 

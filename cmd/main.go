@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 
+	"github.com/cyware-labs/cyware-mcpserver/applications/co"
 	"github.com/cyware-labs/cyware-mcpserver/applications/ctix"
 	"github.com/cyware-labs/cyware-mcpserver/applications/general"
 	"github.com/cyware-labs/cyware-mcpserver/common"
@@ -35,6 +36,7 @@ func main() {
 
 	ctix.Initialize(cfg, s)
 	general.Initialize(s)
+	co.Initialize(cfg, s)
 
 	mcp_server_mode := cfg.Server.MCPMode
 	if mcp_server_mode == "" {
