@@ -14,7 +14,7 @@ const Execute_playbook_schema = `{
     },
     "pbhash": {
       "type": "string",
-      "description" : "This is the hash of the playbook which can be fetched from the playbook details."
+      "description" : "This is the hash of the playbook which can be fetched from the playbook details. Don't consider the id as hash."
     }
   },
   "required": [

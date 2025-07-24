@@ -3,7 +3,6 @@ package co
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/cyware-labs/cyware-mcpserver/common"
 	"github.com/mark3labs/mcp-go/mcp"
@@ -27,7 +26,6 @@ func Login() (*common.APIResponse, error) {
 
 	// based on the auth type generate the auth header and update the client.
 	login_resp := LoginResponse{}
-	log.Println("AUTHTYPE", CO_CONFIG.Auth.Type, " BASE URL", CO_CONFIG.BASE_URL)
 	switch CO_CONFIG.Auth.Type {
 	case "basic":
 		login_payload := LoginPayload{

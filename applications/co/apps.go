@@ -3,7 +3,6 @@ package co
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/cyware-labs/cyware-mcpserver/applications/co/helpers"
 	"github.com/cyware-labs/cyware-mcpserver/common"
@@ -243,7 +242,6 @@ func ExecuteActionOfCOAppTool(s *server.MCPServer) {
 		mp["workspaceid"] = logged_in_user_details.PreferredWorkspaceID
 		mp["sku"] = 1
 
-		log.Println(mp)
 		resp, err := ExecuteActionOfCOApp(mp)
 		return common.MCPToolResponse(resp, []int{200}, err)
 	})
