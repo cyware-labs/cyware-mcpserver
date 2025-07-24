@@ -1,0 +1,12 @@
+applications:
+  ctix:
+    base_url: "CTIX url"
+    auth:
+      type: "basic"
+      username: "username"
+      password: "password"
+      # type: "token"
+      # token: "token"
+server:
+  mcp_mode: "stdio"
+  # port: "5421"
