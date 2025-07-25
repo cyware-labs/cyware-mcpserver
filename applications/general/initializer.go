@@ -7,5 +7,6 @@ func Initialize(s *server.MCPServer) {
 }
 
 func InitTools(s *server.MCPServer) {
-	GetEpochWithDeltaFromNowDaysTool(s)
+	// GetEpochWithDeltaFromNowDaysTool(s)
+	ConvertDateStringToEpochTool(s)
 }
