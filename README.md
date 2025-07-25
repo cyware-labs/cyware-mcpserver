@@ -29,6 +29,7 @@ Cyware MCP Server is a high-performance Model Context Protocol (MCP) server buil
 cyware-mcpserver/
 ├── 📁 applications/
 │   ├── 📁 ctix/                # CTIX threat intelligence MCP resources and tools
+│   ├── 📁 co/                  # CO MCP resources and tools
 │   └── 📁 general/             # General MCP capabilities
 ├── 📁 cmd/
 │   ├── 📄 main.go              # MCP server entry point
