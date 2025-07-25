@@ -34,10 +34,10 @@ func CQLCTIXSearchGrammarTool(s *server.MCPServer) {
 	content := helpers.CQL_grammar_rule
 	cqlCtixSearchGrammarTool := mcp.NewTool("cql-ctix-grammar-rules",
 		mcp.WithDescription(
-			content),
+			"This tool will return the complete CQL grammar details which is used to generate CQL queries. Always understand the grammar before making the CQL query."),
 	)
 	s.AddTool(cqlCtixSearchGrammarTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		return mcp.NewToolResultText(`{"message":"Successfully got the grammar rules of CTIX CQL search"}`), nil
+		return mcp.NewToolResultText(content), nil
 	})
 }
 

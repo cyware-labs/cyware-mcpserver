@@ -39,3 +39,37 @@ func GetEpochWithDeltaFromNowDaysTool(s *server.MCPServer) {
 	})
 
 }
+
+// DateStringToEpoch converts a date string in format "dd-mm-yyyy-hh-min-sec" to epoch time
+func DateStringToEpoch(dateStr string) (int64, error) {
+	// Parse the date string using the custom layout
+	layout := "02-01-2006-15-04-05"
+
+	// Get local time zone
+	loc := time.Now().Location()
+
+	// Parse using the local time zone
+	t, err := time.ParseInLocation(layout, dateStr, loc)
+	if err != nil {
+		return 0, fmt.Errorf("failed to parse date string: %v", err)
+	}
+
+	// Return Unix timestamp (epoch time)
+	return t.Unix(), nil
+}
+
+func ConvertDateStringToEpochTool(s *server.MCPServer) {
+	convertDateStringToEpochTool := mcp.NewTool("convert-date-string-to-epoch",
+		mcp.WithDescription(`This tool will convert the give date string of format "dd-mm-yyyy-hh-min-sec" to epoch.`),
+		mcp.WithString("date",
+			mcp.Description(`Represents the date in the format "dd-mm-yyyy-hh-min-sec"`)),
+	)
+
+	s.AddTool(convertDateStringToEpochTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+		date := request.Params.Arguments["date"].(string)
+		resp, _ := DateStringToEpoch(date)
+
+		return mcp.NewToolResultText(fmt.Sprintf(`{"timestamp":%v}`, resp)), nil
+	})
+
+}
