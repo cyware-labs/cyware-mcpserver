@@ -7,6 +7,14 @@ applications:
       password: "password"
       # type: "token"
       # token: "token"
+  co:
+    base_url: "CO url"
+    auth:
+      type: "basic"
+      username: "username"
+      password: "password"
+      # type: "token"
+      # token: "token"
 server:
   mcp_mode: "stdio"
   # port: "5421"

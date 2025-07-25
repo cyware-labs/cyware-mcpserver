@@ -255,6 +255,19 @@ enriched_status != "Malicious"
 enrichment_verdict IN ("Malicious", "Non malicious")  
 enrichment_verdict NOT ("Malicious", "Non malicious")  
 
+19. ctix_created
+Represent the exact date, timestamp when the threat is created in CTIX application. ctix_created is applicable to all type SDO(stix domain objects) which exists in CTIX.
+Example: If you want to get the data which is created later than 1746901800, use ctix_created >= "1746901800"
+The value must be in string and which is epoch equivalent of the date.
+Supported operators: =, !=, >, >=, <, <=, RANGE
+
+Examples:
+ctix_created >= "1746901800"
+ctix_created = "1746901800"
+ctix_created != "1746901800"
+ctix_created <= "1746901800"
+ctix_created < "1746901800"
+ctix_created RANGE ("1746297000","1746988199")
 ---
 
 📌 Additional Notes for Query Construction:
