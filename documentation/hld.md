@@ -19,21 +19,21 @@ cyware-mcpserver/
 │
 ├── cmd/
 │   ├── main.go                   # Entry point: Initializes server and applications
-│   └── config.yaml               # Global configuration (mode, product configs, etc.)
+│   └── config.yaml               # Global configuration (mode, product configs)
 │
 ├── common/
 │   ├── client.go                 # Reusable HTTP client logic
 │   ├── config.go                 # YAML config loader and parser
-│   └── response.go               # Standardized API & tool response formats
+│   └── responsfor exampleo               # Standardized API & tool response formats
 ```
 
 ## Key Design Concepts
 
 ### Per-Application HTTP Clients
 
-Each application (e.g., CTIX) has its own dedicated HTTP client. This is required because:
+Each application (for example, CTIX) has its own dedicated HTTP client. This is required because:
 - Different base URLs
-- Different authentication mechanisms (tokens, basic auth, etc.)
+- Different authentication mechanisms (tokens, basic auth, and more.)
 - Custom timeouts or headers
 
 Clients are independently initialized to preserve modularity and separation of concerns.
@@ -43,7 +43,7 @@ Clients are independently initialized to preserve modularity and separation of c
 Every application includes an `initializer.go` file responsible for:
 - Loading app-specific configuration
 - Initializing the app's HTTP client
-- Performing authentication (e.g., login)
+- Performing authentication (for example, login)
 - Registering relevant MCP tools
 - Setting up any required internal dependencies
 
@@ -111,13 +111,13 @@ The following tools are registered for CTIX:
 - `CreateQuickAddIntelTool`
 
 ### 6. Initialize Other Applications
-Repeats similar steps (config loading, HTTP client init, tool registration) for other applications (e.g., threat response, automation, etc.).
+Repeat similar steps (config loading, HTTP client init, tool registration) for other applications (for example, threat response, automation, and more).
 
 ### 7. Register General MCP Tools
 Shared tools that apply across applications are registered here.
 
 ### 8. Start the MCP Server
-- The server reads the mode (e.g., sse, stdio) from config
+- The server reads the mode (for example, sse, stdio) from config
 - Starts the MCP server in the selected mode
 
 ## Sequence Diagram
