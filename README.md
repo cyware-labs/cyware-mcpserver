@@ -17,8 +17,8 @@ Cyware MCP Server is a high-performance Model Context Protocol (MCP) server buil
 ## ✨ Features
 
 - **🔗 MCP Protocol Compliance**: Full implementation based on the Model Context Protocol specification
-- **🎯 Multi-Application Support**: Integrated access to CTIX, CSAP and other Cyware applications
-- **🔒 Secure AI Integration**: Robust authentication and authorization using config.yaml file
+- **🎯 Multi-Application Support**: Integrated access to Cyware Intel Exchange (CTIX) and Cyware Orchestrate (CO)
+- **🔒 Secure AI Integration**: Robust authentication and authorization using `config.yaml` file
 - **🛠️ Tool Definitions**: Structured tools for AI agents to interact with Cyware services
 - **⚙️ Configurable**: Easy configuration via YAML files
 - **🚀 High Performance**: Built with Go for optimal speed and reliability
@@ -28,8 +28,8 @@ Cyware MCP Server is a high-performance Model Context Protocol (MCP) server buil
 ```
 cyware-mcpserver/
 ├── 📁 applications/
-│   ├── 📁 ctix/                # CTIX threat intelligence MCP resources and tools
-│   ├── 📁 co/                  # CO MCP resources and tools
+│   ├── 📁 ctix/                # Cyware Intel Exchange (CTIX) MCP resources and tools
+│   ├── 📁 co/                  # Cyware Orchestrate (CO) MCP resources and tools
 │   └── 📁 general/             # General MCP capabilities
 ├── 📁 cmd/
 │   ├── 📄 main.go              # MCP server entry point
@@ -45,11 +45,11 @@ cyware-mcpserver/
 
 ### 📋 Prerequisites
 
-Before you begin, ensure you have the following installed:
+  Ensure you have the following installed:
 
-- **Go 1.24.2 or higher** (Install go: https://go.dev/doc/install)
-- **Access to Cyware applications** (CSAP, CTIX, etc.) 
-- **MCP-compatible AI client** or language model integration 
+- **Go 1.24.2 or higher** (To install Go, see https://go.dev/doc/install)
+- **Access to Cyware applications** (CTIX and CO) 
+- **MCP-compatible AI client** (for example, Claude, Cursor, or more) or language model integration 
 
 ### 📦 Installation
 
@@ -66,9 +66,9 @@ Before you begin, ensure you have the following installed:
 
 ### ⚙️ Configuration
 
-Edit `cmd/config.yaml` to configure your MCP server settings:
+In `cmd/config.yaml`, update the following details::
 - Cyware application credentials
-- MCP server transport settings (stdio, sse)
+- MCP server transport settings — Choose either stdio or sse (with specified port)
 
 ### 🚀 Running the MCP Server
 
@@ -80,8 +80,8 @@ Edit `cmd/config.yaml` to configure your MCP server settings:
 
 2. **Configure Claude Desktop:**
 
-  - Quick Guide for setting up MCP on Claude:[modelcontextprotocol.io/quickstart/user](https://modelcontextprotocol.io/quickstart/user)
-  - After building, configure the binary path in your Claude Desktop config file `claude_desktop_config.json`:
+  - Quick Guide for setting up MCP on Claude: [modelcontextprotocol.io/quickstart/user](https://modelcontextprotocol.io/quickstart/user)
+  - After building the server, configure the binary path and config path in the `claude_desktop_config.json` file of Claude Desktop:
 
    ```json
    {
@@ -97,19 +97,19 @@ Edit `cmd/config.yaml` to configure your MCP server settings:
    }
    ```
 
-3. **Restart Claude Desktop** to see the Cyware tools available! 🎉
+3. Restart Claude Desktop to complete the setup and view the available Cyware MCP server tools.
 
 # 🛠️ Available MCP Tools
 
-## CTIX(Cyware Threat Intelligence eXchange)
+## Cyware Intel Exchange (CTIX)
 
 ### Authentication & User Management
 - `login-to-ctix` - Login to CTIX and generate authentication token
-- `logged-in-user-details` - Get current logged-in user details of the CTIX
+- `logged-in-user-details` - Get details of currently logged in user 
 
 ### CQL Query & Search
 - `cql-ctix-grammar-rules` - Get CTIX CQL grammar rules
-- `get-cql-query-search-result` - Execute CQL query and return results
+- `get-cql-query-search-result` - Run CQL query and return results
 
 ### Threat Data Management
 - `get-threat-data-object-details` - Get Threat Data Object details
@@ -122,14 +122,14 @@ Edit `cmd/config.yaml` to configure your MCP server settings:
 - `threat-data-list-bulk-unmark-indicator-allowed` - Bulk remove indicators from indicator allowed list
 - `threat-data-list-bulk-manual-review` - Bulk add threat data objects for manual review
 - `threat-data-list-bulk-mark-false-positive` - Bulk mark indicators as false positive
-- `threat-data-list-bulk-unmark-false-positive` - Bulk unmark indicators from false positives
+- `threat-data-list-bulk-unmark-false-positive` - Bulk unmark indicators marked as false positives
 - `threat-data-list-bulk-update-analyst-tlp` - Bulk update analyst TLP of threat data objects
 - `threat-data-list-bulk-update-analyst-score` - Bulk update analyst scores of threat data objects
 - `threat-data-list-bulk-deprecate` - Bulk deprecate indicators
-- `threat-data-list-bulk-undeprecate` - Bulk un-deprecate indicators
+- `threat-data-list-bulk-undeprecate` - Bulk undeprecate indicators
 - `threat-data-list-bulk-add-watchlist` - Bulk add threat data objects to watchlist
 - `threat-data-list-bulk-remove-watchlist` - Bulk remove threat data objects from watchlist
-- `threat-data-list-bulk-add-relation` - Bulk add relations to threat data objects
+- `threat-data-list-bulk-add-relation` - Bulk add relation to threat data objects
 
 ### Tag Management
 - `create-tag-in-ctix` - Create new tags in CTIX
@@ -137,32 +137,32 @@ Edit `cmd/config.yaml` to configure your MCP server settings:
 
 ### Enrichment Tools and Actions
 - `get-enrichment-tools-list` - Get list of all enrichment tools
-- `get-enrichment-tool-details` - Get enrichment tool details
+- `get-enrichment-tool-details` - Get details of an enrichment tool
 - `get-enrichment-tool-action-configs` - Get action configuration details of enrichment tool
 - `enrichment-tool-supported-for-threat-data-object` - Get supported enrichment tools for specific threat data types
 - `enrich-threat-data-object` - Enrich threat data objects using configured tools
 
 ### Intel Creation
-- `quick-add-intel-create` - Create intelligence in CTIX using quick add flow
+- `quick-add-intel-create` - Create intel in CTIX using Quick Add Intel
 
-## CO(Cyware Orchestrate)
+## Cyware Orchestrate (CO)
 
 ### Authentication & User Management
-- `login-to-co` - Login to CO and generate authentication token
+- `login-to-co` - Login to CO and generate the authentication token
 
 ### Playbooks Details & Execution
 
-- `get-co-playbooks-list` - Get the list of playbooks created in CO.
-- `get-co-playbook-details` - Get the playbook details
-- `execute-playbook-in-co` - Execute the CO playbook
+- `get-co-playbooks-list` - Get the list of playbooks created in CO
+- `get-co-playbook-details` - Get details of a playbook
+- `execute-playbook-in-co` - Run CO playbook
 
 ### CO Apps & Actions
-- `get-co-apps-list` - Get the list of application present in CO
-- `get-co-app-details` _ Get the details of the specific app
-- `get-co-actions-of-app` - Get the actions present in the app
+- `get-co-apps-list` - Get the list of apps present in CO
+- `get-co-app-details` _ Get the details of a specific app
+- `get-co-actions-of-app` - Get list of actions supported by the app
 - `get-co-app-action-details` - Get the details of an action
-- `get-instances-of-co-app` - Get the instances(account) configured in the app
-- `execute-action-of-co-app` - Executes the action of the app.
+- `get-instances-of-co-app` - Get the instances configured in the app
+- `execute-action-of-co-app` - Run action of an app
 
 ## 📄 License
 

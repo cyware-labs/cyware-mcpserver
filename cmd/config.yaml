@@ -6,7 +6,7 @@ applications:
       username: "username"
       password: "password"
       # type: "token"
-      # token: "token"
+      # token: "token(The token can be obtained from the Authorization header of any API call of the product)"
   co:
     base_url: "CO url"
     auth:
@@ -14,7 +14,7 @@ applications:
       username: "username"
       password: "password"
       # type: "token"
-      # token: "token"
+      # token: "token(The token can be obtained from the Authorization header of any API call of the product)"
 server:
   mcp_mode: "stdio"
   # port: "5421"
