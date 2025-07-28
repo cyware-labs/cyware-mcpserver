@@ -24,7 +24,7 @@ cyware-mcpserver/
 ├── common/
 │   ├── client.go                 # Reusable HTTP client logic
 │   ├── config.go                 # YAML config loader and parser
-│   └── response.go           # Standardized API & tool response formats
+│   └── response.go               # Standardized API & tool response formats
 ```
 
 ## Key Design Concepts
