@@ -10,7 +10,7 @@ applications:
       # token: "token(The token can be obtained from the Authorization header of any API call of the product)"
   co:
     base_url: "CO url"
-    # Example URL : "https://demo.ctix.cyware.com/"
+    # Example URL : "https://demo.soar.cyware.com/"
     auth:
       type: "basic"
       username: "username"
