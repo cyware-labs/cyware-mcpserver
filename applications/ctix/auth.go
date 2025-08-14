@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/cyware-labs/cyware-mcpserver/common"
+	"resty.dev/v3"
 )
 
 const Login_endpoint = "rest-auth/login/user-pass/"
@@ -32,7 +33,11 @@ func GenerateAuthHeaders() string {
 		Email:    CTIX_CONFIG.Auth.Username,
 		Password: CTIX_CONFIG.Auth.Password,
 	}
-	CTIX_CLIENT.MakeRequest("POST", Login_endpoint, nil, &login_resp, login_payload, nil)
+	client := common.APIClient{
+		BASE_URL: CTIX_CONFIG.BASE_URL,
+		Client:   resty.New(),
+	}
+	client.MakeRequest("POST", Login_endpoint, nil, &login_resp, login_payload, nil)
 	return common.FormatCywareToken(login_resp.Token)
 }
 
@@ -56,14 +61,3 @@ func Login() {
 		log.Printf("unsupported auth_type: %s", CTIX_CONFIG.Auth.Type)
 	}
 }
-
-// func LoginTool(s *server.MCPServer) {
-// 	loginTool := mcp.NewTool("login-to-ctix",
-// 		mcp.WithDescription("This tool will login into CTIX and set the auth token."),
-// 	)
-
-// 	s.AddTool(loginTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-// 		resp, err := Login()
-// 		return common.MCPToolResponse(resp, []int{200}, err)
-// 	})
-// }

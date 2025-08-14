@@ -9,7 +9,12 @@ import (
 	"time"
 
 	"github.com/mark3labs/mcp-go/mcp"
+	"resty.dev/v3"
 )
+
+const retry = 4
+
+var failed_status = []int{400, 401}
 
 func FormatCywareToken(rawToken string) string {
 	const prefix = "CYW "
@@ -71,4 +76,18 @@ func ExtractParams(request mcp.CallToolRequest, params_list []string) map[string
 		}
 	}
 	return params
+}
+
+func GetRestyClient(retryHook func(r *resty.Response, err error)) *resty.Client {
+	c := resty.New()
+	c.SetAllowNonIdempotentRetry(true)
+	c.SetRetryCount(retry)
+	c.SetRetryWaitTime(1 * time.Second)
+
+	// Retry condition
+	c.AddRetryConditions(func(r *resty.Response, err error) bool {
+		return r != nil && ContainsStatusCode(failed_status, r.StatusCode())
+	})
+	c.AddRetryHooks(retryHook)
+	return c
 }

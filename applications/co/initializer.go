@@ -2,14 +2,11 @@ package co
 
 import (
 	"log"
-	"time"
 
 	"github.com/cyware-labs/cyware-mcpserver/common"
 	"github.com/mark3labs/mcp-go/server"
 	"resty.dev/v3"
 )
-
-const retry = 4
 
 var failed_status = []int{400, 401}
 
@@ -33,19 +30,9 @@ func InitClient(cfg *common.Config) {
 	CO_CONFIG = cfg.Applications["co"]
 	CO_CONFIG.BASE_URL = common.GetDomain(CO_CONFIG.BASE_URL)
 
-	c := resty.New()
-	c.SetAllowNonIdempotentRetry(true)
-	c.SetRetryCount(retry)
-	c.SetRetryWaitTime(1 * time.Second)
-
-	// Retry condition
-	c.AddRetryConditions(func(r *resty.Response, err error) bool {
-		return r != nil && common.ContainsStatusCode(failed_status, r.StatusCode())
-	})
-
-	c.AddRetryHooks(func(r *resty.Response, err error) {
+	retryHook := func(r *resty.Response, err error) {
 		if r != nil && common.ContainsStatusCode(failed_status, r.StatusCode()) {
-			log.Printf("Got failed status, attempting login before retry\n")
+			log.Printf("CO Got failed status, attempting login before retry\n")
 
 			switch CO_CONFIG.Auth.Type {
 			case "basic":
@@ -59,12 +46,14 @@ func InitClient(cfg *common.Config) {
 				r.Request.SetQueryParams(newParams) // Update the actual request being retried
 			}
 		}
-	})
+	}
+
+	c := common.GetRestyClient(retryHook)
 
 	// initializing global httpclient which will be used for all the CO related APIs
 	CO_CLIENT = common.APIClient{
 		BASE_URL: CO_CONFIG.BASE_URL,
-		Client:   resty.New(),
+		Client:   c,
 	}
 }
 

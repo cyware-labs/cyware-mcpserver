@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/cyware-labs/cyware-mcpserver/common"
+	"resty.dev/v3"
 )
 
 const Login_endpoint = "/cpapi/rest-auth/login/"
@@ -26,7 +27,11 @@ func GenerateAuthHeaders() string {
 		Email:    CO_CONFIG.Auth.Username,
 		Password: common.Base64Encode(CO_CONFIG.Auth.Password),
 	}
-	CO_CLIENT.MakeRequest("POST", Login_endpoint, nil, &login_resp, login_payload, nil)
+	client := common.APIClient{
+		BASE_URL: CO_CONFIG.BASE_URL,
+		Client:   resty.New(),
+	}
+	client.MakeRequest("POST", Login_endpoint, nil, &login_resp, login_payload, nil)
 
 	return common.FormatCywareToken(login_resp.Token)
 }
@@ -55,17 +60,6 @@ func SetUpWorkspace() {
 	resp := GetLoggedInUserDetails()
 	USER_WS = resp.PreferredWorkspace.Code
 }
-
-// func LoginTool(s *server.MCPServer) {
-// 	loginTool := mcp.NewTool("login-to-co",
-// 		mcp.WithDescription("This tool will login into CO and set the auth token."),
-// 	)
-// 	s.AddTool(loginTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-// 		resp, err := Login()
-// 		SetUpWorkspace()
-// 		return common.MCPToolResponse(resp, []int{200}, err)
-// 	})
-// }
 
 func GetSoarEndpoint(endpoint string) string {
 	return fmt.Sprintf("/soarapi/%v/%v", USER_WS, endpoint)
