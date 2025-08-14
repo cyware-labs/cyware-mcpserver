@@ -17,17 +17,19 @@ type Server struct {
 // Auth defines the authentication configuration for an application.
 // It supports different auth types like "basic", "token".
 type Auth struct {
-	Type     string `yaml:"type"`
-	Username string `yaml:"username,omitempty"`
-	Password string `yaml:"password,omitempty"`
-	Token    string `yaml:"token,omitempty"`
+	Type      string `mapstructure:"type"`
+	Username  string `mapstructure:"username,omitempty"`
+	Password  string `mapstructure:"password,omitempty"`
+	Token     string `mapstructure:"token,omitempty"`
+	AccessID  string `mapstructure:"access_id,omitempty"`
+	SecretKey string `mapstructure:"secret_key,omitempty"`
 }
 
 // Application defines the configuration for an external application,
 // including its base URL and authentication credentials.
 type Application struct {
 	BASE_URL string `mapstructure:"base_url"`
-	Auth     Auth   `yaml:"auth"`
+	Auth     Auth   `mapstructure:"auth"`
 }
 
 // Config holds the top-level configuration structure loaded from a YAML file.

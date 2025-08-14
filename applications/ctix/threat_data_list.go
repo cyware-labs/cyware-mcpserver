@@ -41,12 +41,12 @@ func CQLCTIXSearchGrammarTool(s *server.MCPServer) {
 	})
 }
 
-func GetCQLQuerySearchResult(query string, page string, page_size string) (*common.APIResponse, error) {
+func GetCQLQuerySearchResult(sort string, query string, page string, page_size string) (*common.APIResponse, error) {
 	query = strings.ReplaceAll(query, "\"", "\\\"")
 	payload := strings.NewReader(fmt.Sprintf(`{"query": "%s"}`, query))
 
 	params := map[string]string{
-		"sort":      "-ctix_modified",
+		"sort":      sort,
 		"page":      page,
 		"page_size": page_size,
 	}
@@ -76,14 +76,20 @@ func GetCQLQuerySearchResultTool(s *server.MCPServer) {
 			mcp.Required(),
 			mcp.Description("This is the page size number of result per page. Used to get the specified number of result per page. Please note here if you are making paginated call then keep the page_size same in all the pages otherwise you will get duplicate entries in two different pages."),
 		),
+		mcp.WithString("sort",
+			mcp.Required(),
+			mcp.Description(`This is 'sort' params used to get the result in either descending/ascending order based on the value. Supported values are: confidence_score, ctix_modified, ctix_created only. Pass the value prefixed with '-' for descending order or as it for ascending order.
+			If nothing is specified then pass "-ctix_modified"`),
+		),
 	)
 
 	s.AddTool(getCQLQuerySearchResultTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 		query := request.Params.Arguments["query"].(string)
 		page := request.Params.Arguments["page"].(string)
 		page_size := request.Params.Arguments["page_size"].(string)
+		sort := request.Params.Arguments["sort"].(string)
 
-		resp, err := GetCQLQuerySearchResult(query, page, page_size)
+		resp, err := GetCQLQuerySearchResult(sort, query, page, page_size)
 
 		return common.MCPToolResponse(resp, []int{200}, err)
 	})

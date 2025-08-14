@@ -60,7 +60,8 @@ func DateStringToEpoch(dateStr string) (int64, error) {
 
 func ConvertDateStringToEpochTool(s *server.MCPServer) {
 	convertDateStringToEpochTool := mcp.NewTool("convert-date-string-to-epoch",
-		mcp.WithDescription(`This tool will convert the give date string of format "dd-mm-yyyy-hh-min-sec" to epoch.`),
+		mcp.WithDescription(`This tool will convert the give date string of format "dd-mm-yyyy-hh-min-sec" to epoch. 
+		!!Important!! You must always use this tool to convert datetime into epoch.`),
 		mcp.WithString("date",
 			mcp.Description(`Represents the date in the format "dd-mm-yyyy-hh-min-sec"`)),
 	)

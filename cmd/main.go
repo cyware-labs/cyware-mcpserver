@@ -49,7 +49,7 @@ func main() {
 			log.Fatalf("Server error: %v\n", err)
 		}
 	case "sse":
-		sseServer := server.NewSSEServer(s, server.WithBaseURL("http://localhost"))
+		sseServer := server.NewSSEServer(s)
 		if err := sseServer.Start(":" + cfg.Server.Port); err != nil {
 			log.Fatalf("Server error: %v", err)
 		}

@@ -92,16 +92,8 @@ func GetCOAppsListingTool(s *server.MCPServer) {
 		),
 	)
 	s.AddTool(getCOAppsListingTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		mp := request.Params.Arguments["params"].(map[string]interface{})
-
 		params_list := []string{"page", "page_size", "configured", "q"}
-		params := map[string]string{}
-
-		for _, v := range params_list {
-			if _, ok := mp[v]; ok {
-				params[v] = mp[v].(string)
-			}
-		}
+		params := common.ExtractParams(request, params_list)
 		resp, err := GetCOAppsListing(params)
 		return common.MCPToolResponse(resp, []int{200}, err)
 	})
@@ -155,16 +147,8 @@ func COAppActionsListingTool(s *server.MCPServer) {
 		),
 	)
 	s.AddTool(getCOAppActionsListing, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		mp := request.Params.Arguments["params"].(map[string]interface{})
-
 		params_list := []string{"page", "page_size", "app_unique_id", "q"}
-		params := map[string]string{}
-		for _, v := range params_list {
-			if _, ok := mp[v]; ok {
-				params[v] = mp[v].(string)
-			}
-		}
-
+		params := common.ExtractParams(request, params_list)
 		resp, err := GetCOAppActionsListing(params)
 		return common.MCPToolResponse(resp, []int{200}, err)
 	})

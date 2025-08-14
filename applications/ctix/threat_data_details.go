@@ -172,16 +172,8 @@ func GetThreatDataObjectRelationsTool(s *server.MCPServer) {
 		object_type := request.Params.Arguments["object_type"].(string)
 		object_id := request.Params.Arguments["object_id"].(string)
 
-		mp := request.Params.Arguments["params"].(map[string]any)
-
-		params_list := []string{"direction", "page", "page_size"}
-
-		params := map[string]string{}
-		for _, v := range params_list {
-			if _, ok := mp[v]; ok {
-				params[v] = mp[v].(string)
-			}
-		}
+		params_list := []string{"direction", "page", "page_size", "object_type", "q"}
+		params := common.ExtractParams(request, params_list)
 		resp, err := GetThreatDataObjectRelations(params, object_id, object_type)
 		return common.MCPToolResponse(resp, []int{200}, err)
 	})

@@ -1,10 +1,14 @@
 package co
 
 import (
+	"log"
+
 	"github.com/cyware-labs/cyware-mcpserver/common"
 	"github.com/mark3labs/mcp-go/server"
 	"resty.dev/v3"
 )
+
+var failed_status = []int{400, 401}
 
 // CO_CLIENT is the shared HTTP client for all CO-related API requests.
 var CO_CLIENT common.APIClient
@@ -26,10 +30,30 @@ func InitClient(cfg *common.Config) {
 	CO_CONFIG = cfg.Applications["co"]
 	CO_CONFIG.BASE_URL = common.GetDomain(CO_CONFIG.BASE_URL)
 
+	retryHook := func(r *resty.Response, err error) {
+		if r != nil && common.ContainsStatusCode(failed_status, r.StatusCode()) {
+			log.Printf("CO Got failed status, attempting login before retry\n")
+
+			switch CO_CONFIG.Auth.Type {
+			case "basic":
+				auth_token := GenerateAuthHeaders()
+				CO_CLIENT.Client.SetHeader("Authorization", auth_token)
+				// Update the REQUEST object that will be retried
+				r.Request.SetHeader("Authorization", auth_token)
+			case "openapicreds":
+				// Update the REQUEST object that will be retried
+				newParams := common.GenerateAuthParams(CO_CONFIG.Auth.AccessID, CO_CONFIG.Auth.SecretKey)
+				r.Request.SetQueryParams(newParams) // Update the actual request being retried
+			}
+		}
+	}
+
+	c := common.GetRestyClient(retryHook)
+
 	// initializing global httpclient which will be used for all the CO related APIs
 	CO_CLIENT = common.APIClient{
 		BASE_URL: CO_CONFIG.BASE_URL,
-		Client:   resty.New(),
+		Client:   c,
 	}
 }
 
@@ -49,7 +73,7 @@ func InitTools(s *server.MCPServer) {
 	Login()
 	SetUpWorkspace()
 
-	LoginTool(s)
+	// LoginTool(s)
 	GetPlayBookListTool(s)
 	GetPlaybookDetailsTool(s)
 	ExecutePlaybookTool(s)

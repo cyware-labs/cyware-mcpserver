@@ -1,20 +1,28 @@
 applications:
   ctix:
-    base_url: "CTIX url"
+    base_url: "CTIX Base URL"
+    # Example URL : "https://demo.cyware.com/ctix/"
     auth:
-      type: "basic"
-      username: "username"
-      password: "password"
+      # type: "basic"
+      # username: "username"
+      # password: "password"
       # type: "token"
       # token: "token(The token can be obtained from the Authorization header of any API call of the product)"
+      type : "openapicreds"
+      access_id : "access_id"
+      secret_key : "secret_key"
   co:
-    base_url: "CO url"
+    base_url: "CO Base URL"
+    # Example URL : "https://demo.cyware.com/soar/"
     auth:
-      type: "basic"
-      username: "username"
-      password: "password"
+      # type: "basic"
+      # username: "username"
+      # password: "password"
       # type: "token"
       # token: "token(The token can be obtained from the Authorization header of any API call of the product)"
+      type : "openapicreds"
+      access_id : "access_id"
+      secret_key : "secret_key"
 server:
   mcp_mode: "stdio"
   # port: "5421"

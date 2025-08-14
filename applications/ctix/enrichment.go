@@ -171,24 +171,16 @@ func GetEnrichmenToolsListTool(s *server.MCPServer) {
 	)
 
 	s.AddTool(getEnrichmenToolsList, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		mp := request.Params.Arguments["params"].(map[string]interface{})
-
 		params_list := []string{"page", "page_size", "is_active", "q"}
-
-		params := map[string]string{}
+		params := common.ExtractParams(request, params_list)
 		params["category"] = "threat_intelligence_enrichment"
-		for _, v := range params_list {
-			if _, ok := mp[v]; ok {
-				params[v] = mp[v].(string)
-			}
-		}
 		resp, err := GetEnrichmenToolsList(params)
 		return common.MCPToolResponse(resp, []int{200}, err)
 	})
 }
 
 func GetEnrichmentToolsDetails(app_id string) (*common.APIResponse, error) {
-	enrichment_tool_details_resp := EnrichmentToolDetails{}
+	var enrichment_tool_details_resp any
 	endpoint := enrichment_tool_details + app_id + "/"
 	resp, err := CTIX_CLIENT.MakeRequest("GET", endpoint, nil, &enrichment_tool_details_resp, nil, nil)
 	return &common.APIResponse{
@@ -202,6 +194,7 @@ func GetEnrichmentToolsDetailsTool(s *server.MCPServer) {
 		mcp.WithDescription("This tool will give details about the enrichment tool. Details like title, logo, metadata etc.s"),
 		mcp.WithString(
 			"app_id",
+			mcp.Required(),
 			mcp.Description("This is the app_id of the enrichment tool which is required to hit the endpoint to get the details"),
 		),
 	)
@@ -245,18 +238,8 @@ func GetEnrichmentToolActionConfigsTool(s *server.MCPServer) {
 
 	s.AddTool(getEnrichmentToolActionConfigs, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 		app_id := request.Params.Arguments["app_id"].(string)
-
-		mp, _ := request.Params.Arguments["params"].(map[string]interface{})
-
 		params_list := []string{"page", "page_size"}
-		params := map[string]string{}
-		if mp != nil {
-			for _, v := range params_list {
-				if _, ok := mp[v]; ok {
-					params[v] = mp[v].(string)
-				}
-			}
-		}
+		params := common.ExtractParams(request, params_list)
 		resp, err := GetEnrichmentToolActionConfigs(app_id, params)
 		return common.MCPToolResponse(resp, []int{200}, err)
 	})
@@ -299,17 +282,8 @@ func GetAllEnrichmentToolSupportedForThreatDataObjectTool(s *server.MCPServer) {
 	)
 
 	s.AddTool(getAllEnrichmentToolSupportedForThreatDataObject, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		mp := request.Params.Arguments["params"].(map[string]interface{})
-
 		params_list := []string{"action_name", "is_active", "full_list"}
-		params := map[string]string{}
-
-		params["full_list"] = "true"
-		for _, v := range params_list {
-			if _, ok := mp[v]; ok {
-				params[v] = mp[v].(string)
-			}
-		}
+		params := common.ExtractParams(request, params_list)
 		resp, err := GetAllEnrichmentToolSupportedForThreatDataObject(params)
 		return common.MCPToolResponse(resp, []int{200}, err)
 	})
@@ -361,15 +335,8 @@ func EnrichThreatDataObjectTool(s *server.MCPServer) {
 	)
 
 	s.AddTool(enrichThreatDataObjectTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		mp := request.Params.Arguments["params"].(map[string]interface{})
 		params_list := []string{"app_slug", "value", "action_slug", "object_id", "object_type", "ioc_type"}
-		params := map[string]string{}
-
-		for _, v := range params_list {
-			if _, ok := mp[v]; ok {
-				params[v] = mp[v].(string)
-			}
-		}
+		params := common.ExtractParams(request, params_list)
 		resp, err := EnrichThreatDataObject(params)
 		return common.MCPToolResponse(resp, []int{200}, err)
 	})

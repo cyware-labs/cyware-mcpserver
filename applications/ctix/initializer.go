@@ -1,10 +1,14 @@
 package ctix
 
 import (
+	"log"
+
 	"github.com/cyware-labs/cyware-mcpserver/common"
 	"github.com/mark3labs/mcp-go/server"
 	"resty.dev/v3"
 )
+
+var failed_status = []int{400, 401}
 
 // CTIX_CLIENT is the shared HTTP client for all CTIX-related API requests.
 var CTIX_CLIENT common.APIClient
@@ -24,10 +28,33 @@ func InitClient(cfg *common.Config) {
 	CTIX_CONFIG = cfg.Applications["ctix"]
 	CTIX_CONFIG.BASE_URL = common.GetDomain(CTIX_CONFIG.BASE_URL) + "/ctixapi/"
 
+	retryHook := func(r *resty.Response, err error) {
+		if r != nil && common.ContainsStatusCode(failed_status, r.StatusCode()) {
+			log.Printf("CTIX Got failed status, attempting login before retry\n")
+
+			switch CTIX_CONFIG.Auth.Type {
+			case "basic":
+
+				auth_token := GenerateAuthHeaders()
+				// Updating the client as well as its basic
+				CTIX_CLIENT.Client.SetHeader("Authorization", auth_token)
+
+				// Updating the REQUEST object that will be retried
+				r.Request.SetHeader("Authorization", auth_token)
+			case "openapicreds":
+				newParams := common.GenerateAuthParams(CTIX_CONFIG.Auth.AccessID, CTIX_CONFIG.Auth.SecretKey)
+				// Updating the REQUEST object that will be retried
+				r.Request.SetQueryParams(newParams)
+			}
+		}
+	}
+
+	c := common.GetRestyClient(retryHook)
+
 	// initializing global httpclient which will be used for all the CTIX related APIs
 	CTIX_CLIENT = common.APIClient{
 		BASE_URL: CTIX_CONFIG.BASE_URL,
-		Client:   resty.New(),
+		Client:   c,
 	}
 }
 
@@ -50,7 +77,7 @@ func InitTools(s *server.MCPServer) {
 	// login and setting the token for all the subsequent requests
 	Login()
 
-	LoginTool(s)
+	// LoginTool(s)
 	GetLoggedInUserDetailsTool(s)
 
 	// cql and search

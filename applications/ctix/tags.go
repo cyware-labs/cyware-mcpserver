@@ -62,16 +62,8 @@ func GetCTIXTagListingTool(s *server.MCPServer) {
 		),
 	)
 	s.AddTool(getCTIXTagListing, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		mp := request.Params.Arguments["params"].(map[string]interface{})
-
 		params_list := []string{"page", "page_size", "tag_type", "q"}
-		params := map[string]string{}
-
-		for _, v := range params_list {
-			if _, ok := mp[v]; ok {
-				params[v] = mp[v].(string)
-			}
-		}
+		params := common.ExtractParams(request, params_list)
 		resp, err := GetCTIXTagListing(params)
 		return common.MCPToolResponse(resp, []int{200}, err)
 	})
