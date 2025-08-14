@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/cyware-labs/cyware-mcpserver/common"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
 )
@@ -110,16 +111,8 @@ func GetCTIXUserListingTool(s *server.MCPServer) {
 		),
 	)
 	s.AddTool(getCTIXUserListingTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		mp := request.Params.Arguments["params"].(map[string]interface{})
-
 		params_list := []string{"page", "page_size", "q", "is_active", "is_blocked", "is_read_only"}
-		params := map[string]string{}
-
-		for _, v := range params_list {
-			if _, ok := mp[v]; ok {
-				params[v] = mp[v].(string)
-			}
-		}
+		params := common.ExtractParams(request, params_list)
 		resp := GetCTIXUserListing(params)
 		result, _ := json.Marshal(resp)
 
@@ -148,16 +141,8 @@ func GetCTIXUserGroupListTool(s *server.MCPServer) {
 		),
 	)
 	s.AddTool(getCTIXUserGroupListTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		mp := request.Params.Arguments["params"].(map[string]interface{})
-
 		params_list := []string{"page", "page_size", "q"}
-		params := map[string]string{}
-
-		for _, v := range params_list {
-			if _, ok := mp[v]; ok {
-				params[v] = mp[v].(string)
-			}
-		}
+		params := common.ExtractParams(request, params_list)
 		resp := GetCTIXUserGroupList(params)
 		result, _ := json.Marshal(resp)
 

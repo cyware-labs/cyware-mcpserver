@@ -1,12 +1,9 @@
 package ctix
 
 import (
-	"context"
-	"fmt"
+	"log"
 
 	"github.com/cyware-labs/cyware-mcpserver/common"
-	"github.com/mark3labs/mcp-go/mcp"
-	"github.com/mark3labs/mcp-go/server"
 )
 
 const Login_endpoint = "rest-auth/login/user-pass/"
@@ -22,45 +19,51 @@ type LoginResponse struct {
 	Email   string `json:"email"`
 }
 
-func Login() (*common.APIResponse, error) {
+// AuthParams holds the authentication parameters
+type AuthParams struct {
+	AccessID  string
+	Signature string
+	Expires   string
+}
+
+func GenerateAuthHeaders() string {
+	login_resp := LoginResponse{}
+	login_payload := LoginPayload{
+		Email:    CTIX_CONFIG.Auth.Username,
+		Password: CTIX_CONFIG.Auth.Password,
+	}
+	CTIX_CLIENT.MakeRequest("POST", Login_endpoint, nil, &login_resp, login_payload, nil)
+	return common.FormatCywareToken(login_resp.Token)
+}
+
+func Login() {
 
 	// based on the auth type generate the auth header and update the client.
-	login_resp := LoginResponse{}
 	switch CTIX_CONFIG.Auth.Type {
 	case "basic":
-		login_payload := LoginPayload{
-			Email:    CTIX_CONFIG.Auth.Username,
-			Password: CTIX_CONFIG.Auth.Password,
-		}
-		resp, err := CTIX_CLIENT.MakeRequest("POST", Login_endpoint, nil, &login_resp, login_payload, nil)
-		CTIX_CLIENT.Client.SetHeader("Authorization", common.FormatCywareToken(login_resp.Token))
-
-		return &common.APIResponse{
-			FilteredReponse: common.JsonifyResponse(login_resp),
-			RawResponse:     resp,
-		}, err
+		auth_token := GenerateAuthHeaders()
+		CTIX_CLIENT.Client.SetHeader("Authorization", auth_token)
 
 	case "token":
 		token := common.FormatCywareToken(CTIX_CONFIG.Auth.Token)
 		CTIX_CLIENT.Client.SetHeader("Authorization", token)
-		login_resp.Token = token
+
+	case "openapicreds":
+		params := common.GenerateAuthParams(CTIX_CONFIG.Auth.AccessID, CTIX_CONFIG.Auth.SecretKey)
+		CTIX_CLIENT.Client.SetQueryParams(params)
+
 	default:
-		return nil, fmt.Errorf("unsupported auth_type: %s", CTIX_CONFIG.Auth.Type)
+		log.Printf("unsupported auth_type: %s", CTIX_CONFIG.Auth.Type)
 	}
-
-	return &common.APIResponse{
-		FilteredReponse: common.JsonifyResponse(login_resp),
-		RawResponse:     nil,
-	}, nil
 }
 
-func LoginTool(s *server.MCPServer) {
-	loginTool := mcp.NewTool("login-to-ctix",
-		mcp.WithDescription("This tool will login into CTIX and set the auth token."),
-	)
+// func LoginTool(s *server.MCPServer) {
+// 	loginTool := mcp.NewTool("login-to-ctix",
+// 		mcp.WithDescription("This tool will login into CTIX and set the auth token."),
+// 	)
 
-	s.AddTool(loginTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		resp, err := Login()
-		return common.MCPToolResponse(resp, []int{200}, err)
-	})
-}
+// 	s.AddTool(loginTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+// 		resp, err := Login()
+// 		return common.MCPToolResponse(resp, []int{200}, err)
+// 	})
+// }

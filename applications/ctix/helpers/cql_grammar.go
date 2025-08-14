@@ -262,12 +262,28 @@ The value must be in string and which is epoch equivalent of the date.
 Supported operators: =, !=, >, >=, <, <=, RANGE
 
 Examples:
+ctix_created > "1746901800"
 ctix_created >= "1746901800"
 ctix_created = "1746901800"
 ctix_created != "1746901800"
 ctix_created <= "1746901800"
 ctix_created < "1746901800"
 ctix_created RANGE ("1746297000","1746988199")
+
+20. confidence_score
+Represet the confidence score(also knowns as risk score) of the threat data object.
+Example: If you want to get the data having risk score greater than 75, use confidence_score > "75"
+The value must be in string and must be between 0 to 100 inclusive.
+Supported operators: =, !=, >, >=, <, <=, RANGE
+
+Examples:
+confidence_score > "75"
+confidence_score >= "75"
+confidence_score = "75"
+confidence_score != "75"
+confidence_score <= "75"
+confidence_score < "75"
+confidence_score RANGE ("75","90")
 ---
 
 📌 Additional Notes for Query Construction:
