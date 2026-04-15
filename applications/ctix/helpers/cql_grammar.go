@@ -326,6 +326,13 @@ Supported operators: =, !=, IN, NOT
 
 Supported Values : CUSTOM_STIX_SOURCES, API_FEEDS, EMAIL_ACCOUNTS, RSS_FEED, TWITTER_FEEDS, WEB_SCRAPPER, MALWARE_SANDBOX, MISCELLANEOUS
 
+
+
+
+
+
+
+
 Example :
 
 If you want to search for all indicators received from APIs, use 'type' = "indicator" AND 'source_type' = "API_FEEDS"
@@ -336,10 +343,12 @@ If you want to search for all indicators received from Webscraper, use 'type' = 
 If you want to search for all indicators received from Sandbox, use 'type' = "indicator" AND 'source_type' = "MALWARE_SANDBOX"
 If you want to search for all indicators received from Miscellaneous, use 'type' = "indicator" AND 'source_type' = "MISCELLANEOUS"
 
+
+
 Examples :
 'source_type' = "API_FEEDS"
 'source_type' != "RSS_FEED"
-'source_type' IN ("API_FEEDS", "WEBHOOKS")
+'source_type' IN ("API_FEEDS", "RSS_FEED")
 'source_type' NOT ("EMAIL_ACCOUNTS", "TWITTER_FEEDS")
 
 22. Custom Object Type:
@@ -357,6 +366,9 @@ Examples :
 'custom_object_type' != "x-my-custom-threat"
 'custom_object_type' IN ("x-custom-threat-1", "x-custom-threat-2")
 'custom_object_type' NOT ("x-custom-threat-1", "x-custom-threat-2")
+
+
+
 
 
 23. Source Collections :
@@ -386,12 +398,20 @@ Example: If you want to search for all indicators with HIGH source confidence, u
 'source_confidence' IN ("HIGH", "MEDIUM")
 'source_confidence' NOT ("LOW", "NONE")
 
+
+
+
+
+
+
 25.Source Confidence Value :
 
 Represents the numeric confidence score value assigned by the source (0-100).
 Example: If you want to search for threat data with source confidence value greater than 75, use source_confidence_value > "75"
 The value must be in string format and must be between 0 to 100 inclusive.
 Supported operators: =, !=, >, >=, <, <=, RANGE
+
+
 
 Examples :
 'source_confidence_value' > "75"
@@ -401,6 +421,7 @@ Examples :
 'source_confidence_value' <= "30"
 'source_confidence_value' < "25"
 'source_confidence_value' RANGE ("50", "80")
+
 
 26.Published Date
 
@@ -428,6 +449,8 @@ Examples:
 'published_on' < "1746901800000"
 'published_on' RANGE ("1746297000000","1746988199000")
 
+
+
 27.Imported File
 Represents the name of the file from which IOCs (Indicators of Compromise) were imported through the IOC Lookup feature. This field allows you to track and filter threat data based on the source file used during bulk IOC imports.
 
@@ -451,6 +474,8 @@ Examples:
 'imported_file' NOT ("old_data.csv", "deprecated_iocs.txt")
 'imported_file' CONTAINS "2024"
 'imported_file' BEGINS_WITH "threat_feed"
+
+
 
 28.Imported File Date
 
@@ -558,6 +583,8 @@ Supported operators: =
 
 Examples:
 'tag_type' = "user"
+
+
 
 32.Analyst Score
 
@@ -788,6 +815,8 @@ Examples:
 'is_revoked' = "false"
 'is_revoked' != "true"
 'is_revoked' != "false"
+
+
 
 40.Manual Review
 Represents whether a threat data object is currently under manual review by a security analyst. This boolean flag indicates that the object has been flagged for analyst examination but the review process has not been completed yet.
@@ -1198,7 +1227,6 @@ When used in composite format, all three fields must be present to query for spe
 
 Standalone Mode:
 'type' = "indicator" AND 'custom_attribute_name' = "owner"
-'type' = "malware" AND 'custom_attribute_name' CONTAINS "criticality"
 'type' = "vulnerability" AND 'custom_attribute_name' IN ("owner", "department", "location")
 
 Composite Mode (with type and value):
@@ -1765,7 +1793,7 @@ The value must be a string.
 
 Example Use Cases:
 
-If you want to find actors who have a secondary motivation of financial gain (e.g., state actors moonlighting), use 'type' = "threat-actor" AND 'secondary_motivation' CONTAINS "financial-gain"
+If you want to find actors who have a secondary motivation of financial gain (e.g., state actors moonlighting), use 'type' = "threat-actor" AND 'secondary_motivation' = "financial-gain"
 
 Supported operators: =, !=, IN, NOT
 
@@ -1781,7 +1809,7 @@ The value must be a string.
 
 Example Use Cases:
 
-If you are investigating insider threats, you might search for type = "threat-actor" AND personal_motivations CONTAINS "revenge"
+If you are investigating insider threats, you might search for type = "threat-actor" AND personal_motivations = "revenge"
 
 
 Supported operators: =, !=, IN, NOT
