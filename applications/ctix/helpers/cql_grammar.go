@@ -328,6 +328,11 @@ Supported Values : CUSTOM_STIX_SOURCES, API_FEEDS, EMAIL_ACCOUNTS, RSS_FEED, TWI
 
 
 
+
+
+
+
+
 Example :
 
 If you want to search for all indicators received from APIs, use 'type' = "indicator" AND 'source_type' = "API_FEEDS"
@@ -364,6 +369,8 @@ Examples :
 
 
 
+
+
 23. Source Collections :
 
 
@@ -392,12 +399,18 @@ Example: If you want to search for all indicators with HIGH source confidence, u
 'source_confidence' NOT ("LOW", "NONE")
 
 
+
+
+
+
+
 25.Source Confidence Value :
 
 Represents the numeric confidence score value assigned by the source (0-100).
 Example: If you want to search for threat data with source confidence value greater than 75, use source_confidence_value > "75"
 The value must be in string format and must be between 0 to 100 inclusive.
 Supported operators: =, !=, >, >=, <, <=, RANGE
+
 
 
 Examples :
@@ -561,7 +574,6 @@ Example Use Cases:
 - If you want to find all objects tagged with user-created tags, use tag_type = "USER"
 - If you want to find objects with source-assigned tags, use tag_type = "SOURCE"
 - If you want to exclude system tags from results, use tag_type != "SYSTEM"
-- If you want to find objects with privileged or group tags, use tag_type IN ("PRIVILEGED", "GROUP")
 
 The value must be in string format and must match one of the supported tag type values exactly.
 
@@ -1084,13 +1096,10 @@ custom_score_name = "score_name" AND custom_score_type = "type" AND custom_score
 Example Use Cases:
 - Find high business impact threats: custom_score_name = "business_impact" AND custom_score_type = "integer" AND custom_score_value > "7"
 - Find specific severity levels: custom_score_name = "severity" AND custom_score_type = "string" AND custom_score_value = "critical"
-- Find boolean flags: custom_score_name = "requires_immediate_action" AND custom_score_type = "boolean" AND custom_score_value = "true"
-- Find score ranges: custom_score_name = "priority_score" AND custom_score_type = "float" AND custom_score_value RANGE ("7.5", "9.5")
 
 Examples:
 'custom_score_name' = "business_impact" AND 'custom_score_type' = "integer" AND 'custom_score_value' >= "8"
 'custom_score_name' = "severity_level" AND 'custom_score_type' = "string" AND 'custom_score_value' IN ("high", "critical")
-'custom_score_name' = "remediation_priority" AND 'custom_score_type' = "float" AND 'custom_score_value' > "7.5"
 'custom_score_name' IN ("impact", "urgency") AND 'custom_score_type' = "integer" AND 'custom_score_value' >= "5"
 
 Combined query example:
@@ -1108,7 +1117,6 @@ CIDR notation expresses IP address ranges using a base IP address followed by a 
 Example Use Cases:
 - If you want to find all malicious IPs within your corporate network range, use 'type' = "indicator" AND 'ioc_type' = "ipv4-addr" AND 'ip_match' = "10.0.0.0/8"
 - If you want to find threats in a specific subnet, use ip_match = "192.168.1.0/24"
-- If you want to search multiple CIDR ranges, use ip_match IN ("192.168.1.0/24", "10.0.0.0/16")
 - If you want to find all IPs in a small range, use ip_match = "203.0.113.0/28"
 
 The value must be in string format and must follow valid CIDR notation (IPv4 or IPv6 address followed by /prefix_length).
@@ -1152,7 +1160,6 @@ Supported operators (standalone): =, !=, IN, NOT
 
 **Standalone Query Use Cases:**
 - Find all objects with an owner assigned: custom_attribute_name = "owner"
-- Find all objects with location metadata: custom_attribute_name CONTAINS "location"
 - Find objects with any of several attributes: custom_attribute_name IN ("department", "business_unit", "team")
 - Audit attribute usage: type = "indicator" AND custom_attribute_name = "asset_criticality"
 
@@ -1205,7 +1212,6 @@ custom_attribute_name [operator] "name" AND custom_attribute_type = "type" AND c
 Example Use Cases:
 - Find threats affecting specific departments: custom_attribute_name = "department" AND custom_attribute_type = "string" AND custom_attribute_value = "Finance"
 - Find high-criticality assets: custom_attribute_name = "asset_criticality" AND custom_attribute_type = "integer" AND custom_attribute_value >= "8"
-- Find attributes by pattern: custom_attribute_name CONTAINS "location" AND custom_attribute_type = "string" AND custom_attribute_value = "datacenter_1"
 - Find date-based attributes: custom_attribute_name = "last_review_date" AND custom_attribute_type = "date" AND custom_attribute_value >= "1735689600000"
 
 
@@ -1578,7 +1584,7 @@ Examples:
 'kill_chain_phases' BEGINS_WITH "initial"
 
 69. is_defanged
-Represents whether the object (e.g., an indicator value) has been "defanged"
+Represents whether the object (e.g., an indicator value) has been "defanged" (made non-malicious, like 'hxxp://' or '[.]').
 Supported values are "true", "false".
 
 Example Use Cases:
@@ -2144,5 +2150,4 @@ Examples:
 | value       | String | =, !=, MATCHES, BEGINS_WITH, ENDS_WITH, IN, NOT  | Yes                 |
 | description | String | CONTAINS                                          | No                  |
 
-Use these grammar rules to generate valid CQL queries for searching threat data within the CTIX platform.
-`
+Use these grammar rules to generate valid CQL queries for searching threat data within the CTIX platform.`
