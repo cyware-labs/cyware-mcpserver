@@ -326,13 +326,6 @@ Supported operators: =, !=, IN, NOT
 
 Supported Values : CUSTOM_STIX_SOURCES, API_FEEDS, EMAIL_ACCOUNTS, RSS_FEED, TWITTER_FEEDS, WEB_SCRAPPER, MALWARE_SANDBOX, MISCELLANEOUS
 
-
-
-
-
-
-
-
 Example :
 
 If you want to search for all indicators received from APIs, use 'type' = "indicator" AND 'source_type' = "API_FEEDS"
@@ -342,8 +335,6 @@ If you want to search for all indicators received from X (Twitter), use 'type' =
 If you want to search for all indicators received from Webscraper, use 'type' = "indicator" AND 'source_type' = "WEB_SCRAPPER"
 If you want to search for all indicators received from Sandbox, use 'type' = "indicator" AND 'source_type' = "MALWARE_SANDBOX"
 If you want to search for all indicators received from Miscellaneous, use 'type' = "indicator" AND 'source_type' = "MISCELLANEOUS"
-
-
 
 Examples :
 'source_type' = "API_FEEDS"
@@ -366,9 +357,6 @@ Examples :
 'custom_object_type' != "x-my-custom-threat"
 'custom_object_type' IN ("x-custom-threat-1", "x-custom-threat-2")
 'custom_object_type' NOT ("x-custom-threat-1", "x-custom-threat-2")
-
-
-
 
 
 23. Source Collections :
@@ -398,20 +386,12 @@ Example: If you want to search for all indicators with HIGH source confidence, u
 'source_confidence' IN ("HIGH", "MEDIUM")
 'source_confidence' NOT ("LOW", "NONE")
 
-
-
-
-
-
-
 25.Source Confidence Value :
 
 Represents the numeric confidence score value assigned by the source (0-100).
 Example: If you want to search for threat data with source confidence value greater than 75, use source_confidence_value > "75"
 The value must be in string format and must be between 0 to 100 inclusive.
 Supported operators: =, !=, >, >=, <, <=, RANGE
-
-
 
 Examples :
 'source_confidence_value' > "75"
@@ -421,7 +401,6 @@ Examples :
 'source_confidence_value' <= "30"
 'source_confidence_value' < "25"
 'source_confidence_value' RANGE ("50", "80")
-
 
 26.Published Date
 
@@ -449,8 +428,6 @@ Examples:
 'published_on' < "1746901800000"
 'published_on' RANGE ("1746297000000","1746988199000")
 
-
-
 27.Imported File
 Represents the name of the file from which IOCs (Indicators of Compromise) were imported through the IOC Lookup feature. This field allows you to track and filter threat data based on the source file used during bulk IOC imports.
 
@@ -474,8 +451,6 @@ Examples:
 'imported_file' NOT ("old_data.csv", "deprecated_iocs.txt")
 'imported_file' CONTAINS "2024"
 'imported_file' BEGINS_WITH "threat_feed"
-
-
 
 28.Imported File Date
 
@@ -583,8 +558,6 @@ Supported operators: =
 
 Examples:
 'tag_type' = "user"
-
-
 
 32.Analyst Score
 
@@ -815,8 +788,6 @@ Examples:
 'is_revoked' = "false"
 'is_revoked' != "true"
 'is_revoked' != "false"
-
-
 
 40.Manual Review
 Represents whether a threat data object is currently under manual review by a security analyst. This boolean flag indicates that the object has been flagged for analyst examination but the review process has not been completed yet.
