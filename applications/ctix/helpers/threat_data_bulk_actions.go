@@ -446,7 +446,7 @@ const (
 				"description" : "This is the reason for updating analyst score of threat data objects."
 				},
 				"analyst_score": {
-				"type": "string",
+				"type": "integer",
 				"description" : "This is the value analyst score, it must be between 0-100"
 				}
 			},
