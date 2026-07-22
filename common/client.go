@@ -1,6 +1,7 @@
 package common
 
 import (
+	"context"
 	"net/http"
 
 	"resty.dev/v3"
@@ -12,8 +13,12 @@ type APIClient struct {
 }
 
 func (a *APIClient) MakeRequest(method string, endpoint string, queryParams map[string]string, result any, payload any, headers map[string]string) (*resty.Response, error) {
+	return a.MakeRequestWithContext(context.Background(), method, endpoint, queryParams, result, payload, headers)
+}
+
+func (a *APIClient) MakeRequestWithContext(ctx context.Context, method string, endpoint string, queryParams map[string]string, result any, payload any, headers map[string]string) (*resty.Response, error) {
 	request_url := a.BASE_URL + endpoint
-	r := a.Client.R()
+	r := a.Client.R().SetContext(ctx)
 
 	var resp *resty.Response
 	var err error

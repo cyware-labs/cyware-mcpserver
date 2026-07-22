@@ -4,7 +4,9 @@ import (
 	"crypto/hmac"
 	"crypto/sha1"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 	"time"
@@ -77,6 +79,51 @@ func ExtractParams(request mcp.CallToolRequest, params_list []string) map[string
 		}
 	}
 	return params
+}
+
+func ParseTimeoutDuration(timeoutArg any) (time.Duration, error) {
+	var timeoutSeconds float64
+
+	switch v := timeoutArg.(type) {
+	case float64:
+		timeoutSeconds = v
+	case float32:
+		timeoutSeconds = float64(v)
+	case int:
+		timeoutSeconds = float64(v)
+	case int8:
+		timeoutSeconds = float64(v)
+	case int16:
+		timeoutSeconds = float64(v)
+	case int32:
+		timeoutSeconds = float64(v)
+	case int64:
+		timeoutSeconds = float64(v)
+	case uint:
+		timeoutSeconds = float64(v)
+	case uint8:
+		timeoutSeconds = float64(v)
+	case uint16:
+		timeoutSeconds = float64(v)
+	case uint32:
+		timeoutSeconds = float64(v)
+	case uint64:
+		timeoutSeconds = float64(v)
+	case json.Number:
+		parsedTimeoutSeconds, err := v.Float64()
+		if err != nil {
+			return 0, fmt.Errorf("timeout_seconds must be a number")
+		}
+		timeoutSeconds = parsedTimeoutSeconds
+	default:
+		return 0, fmt.Errorf("timeout_seconds must be a number")
+	}
+
+	if timeoutSeconds <= 0 || math.IsNaN(timeoutSeconds) || math.IsInf(timeoutSeconds, 0) {
+		return 0, fmt.Errorf("timeout_seconds must be greater than 0")
+	}
+
+	return time.Duration(timeoutSeconds * float64(time.Second)), nil
 }
 
 // anyToString coerces a JSON-decoded value to a string. JSON numbers decode to

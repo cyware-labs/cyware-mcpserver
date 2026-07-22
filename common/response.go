@@ -19,6 +19,9 @@ func JsonifyResponse(obj any) any {
 }
 
 func MCPToolResponse(resp *APIResponse, expected_status_code []int, err error) (*mcp.CallToolResult, error) {
+	if err != nil && (resp == nil || resp.RawResponse == nil) {
+		return mcp.NewToolResultText(fmt.Sprintf("An error occurred: %v", err)), err
+	}
 	if err != nil || (resp.RawResponse != nil && !ContainsStatusCode(expected_status_code, resp.RawResponse.StatusCode())) {
 		// resp.RawResponse is nil when the request failed before any response
 		// was received (e.g. timeout / connection reset). Dereferencing it here
