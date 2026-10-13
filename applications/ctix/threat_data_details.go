@@ -2,6 +2,7 @@ package ctix
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/cyware-labs/cyware-mcpserver/common"
@@ -78,13 +79,13 @@ type ThreatDataRelationsResponse struct {
 			SourceType string `json:"source_type"`
 		} `json:"sources"`
 		TargetRef struct {
-			Created    int    `json:"created"`
-			ID         string `json:"id"`
-			Modified   int    `json:"modified"`
-			Name       string `json:"name"`
-			ObjectType string `json:"object_type"`
-			SubType    any    `json:"sub_type"`
-			Tlp        string `json:"tlp"`
+			Created    json.Number `json:"created"`
+			ID         string      `json:"id"`
+			Modified   int         `json:"modified"`
+			Name       string      `json:"name"`
+			ObjectType string      `json:"object_type"`
+			SubType    any         `json:"sub_type"`
+			Tlp        string      `json:"tlp"`
 		} `json:"target_ref"`
 	} `json:"results"`
 	Total int `json:"total"`
