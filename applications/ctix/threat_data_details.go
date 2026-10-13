@@ -81,7 +81,7 @@ type ThreatDataRelationsResponse struct {
 		TargetRef struct {
 			Created    json.Number `json:"created"`
 			ID         string      `json:"id"`
-			Modified   int         `json:"modified"`
+			Modified   json.Number `json:"modified"`
 			Name       string      `json:"name"`
 			ObjectType string      `json:"object_type"`
 			SubType    any         `json:"sub_type"`

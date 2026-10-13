@@ -6,13 +6,16 @@ import (
 	"testing"
 )
 
-func TestThreatDataRelationsResponseAcceptsTargetCreatedTimestamps(t *testing.T) {
+func TestThreatDataRelationsResponseAcceptsTargetTimestamps(t *testing.T) {
 	tests := []struct {
-		name    string
-		created string
+		name     string
+		created  string
+		modified string
 	}{
-		{name: "integer", created: "1730000000"},
-		{name: "fractional", created: "1730000000.125"},
+		{name: "integer timestamps", created: "1730000000", modified: "1730000001"},
+		{name: "fractional created timestamp", created: "1730000000.125", modified: "1730000001"},
+		{name: "fractional modified timestamp", created: "1730000000", modified: "1730000001.25"},
+		{name: "fractional timestamps", created: "1730000000.125", modified: "1730000001.25"},
 	}
 
 	for _, tt := range tests {
@@ -34,7 +37,7 @@ func TestThreatDataRelationsResponseAcceptsTargetCreatedTimestamps(t *testing.T)
 					"target_ref": {
 						"created": ` + tt.created + `,
 						"id": "target-id",
-						"modified": 1730000001,
+						"modified": ` + tt.modified + `,
 						"name": "target-name",
 						"object_type": "indicator",
 						"sub_type": null,
@@ -63,13 +66,24 @@ func TestThreatDataRelationsResponseAcceptsTargetCreatedTimestamps(t *testing.T)
 			if relation.TargetRef.Created.String() != tt.created {
 				t.Fatalf("target created timestamp = %q, want %q", relation.TargetRef.Created, tt.created)
 			}
+			if relation.TargetRef.Modified.String() != tt.modified {
+				t.Fatalf("target modified timestamp = %q, want %q", relation.TargetRef.Modified, tt.modified)
+			}
 
 			encoded, err := json.Marshal(response)
 			if err != nil {
 				t.Fatalf("encode relation response: %v", err)
 			}
-			if !strings.Contains(string(encoded), `"created":`+tt.created) {
-				t.Fatalf("encoded response did not preserve numeric timestamp %q: %s", tt.created, encoded)
+			for _, timestamp := range []struct {
+				field string
+				value string
+			}{
+				{field: "created", value: tt.created},
+				{field: "modified", value: tt.modified},
+			} {
+				if !strings.Contains(string(encoded), `"`+timestamp.field+`":`+timestamp.value) {
+					t.Fatalf("encoded response did not preserve numeric %s timestamp %q: %s", timestamp.field, timestamp.value, encoded)
+				}
 			}
 		})
 	}
